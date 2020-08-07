@@ -58,7 +58,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 4.  Remove printbed
 5.  Remove heatbed. Follow the reverse order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
 
-<a href="https://i.imgur.com/ayQvKFn.png"><img src="https://i.imgur.com/ayQvKFn.png" width="100%"></a>
+<a href="https://i.imgur.com/OF3czzZ.png"><img src="https://i.imgur.com/OF3czzZ.png" width="84%"></a>
 
 6.  Remove the 8 3mm screws and spacers along the outside of the Y carriage (leave the center screw & spacer)
 
@@ -75,7 +75,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 9.  Go to the opposite corner and do the same. Now the other two corners and then the remaining screws. Again, be very careful here, you can break the heatbed if it bends too much!
 10.  Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
 
-<a href="https://i.imgur.com/ayQvKFn.png"><img src="https://i.imgur.com/ayQvKFn.png" width="100%"></a>
+<a href="https://i.imgur.com/OF3czzZ.png"><img src="https://i.imgur.com/OF3czzZ.png" width="84%"></a>
 <a href="https://i.imgur.com/Lo9Id0w.jpg"><img src="https://i.imgur.com/Lo9Id0w.jpg" width="50%"></a>
 
 11.  Now screw in the center screw until tight.
