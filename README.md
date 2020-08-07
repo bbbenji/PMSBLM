@@ -8,6 +8,16 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 ---
 
+## Table of contents
+
+* [Benefits &amp; drawbacks](#benefits--drawbacks)
+* [Requirements](#requirements)
+* [Installation/Setup Procedure](#installationsetup-procedure)
+* [Leveling Procedure](#leveling-procedure)
+* [Notes](#notes)
+* [Credit](#credit)
+
+
 ## Benefits & drawbacks
 
 ### Pros
