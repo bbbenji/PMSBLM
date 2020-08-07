@@ -104,10 +104,13 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 12.  Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
 13.  Spend loads of quality time printing the bottom 2mm of Benchy and getting that live-z value perfect.
 
-Notes:
-
+## Notes
 -   Why Torx screws? Because the Mini's heatbed screw holes are not as deep as the Mk3's. Hex screws will sit proud of the bed.
 -   Why low-profile locknuts? Actually the only area the low-profile locknut is required on is the top center mount point. This allows clearing the Y-axis motor mount.
 -   If you cannot find low-profile locknuts, you can use regular ones, but you will need 18mm 3m Torx screws. However, the top center point REQUIRES a 16mm Torx screw and low-profile locknut. If you cannot find a single low-profile locknut, you can sand one down to at least 3mm height.
 
 _I take no responsibility or liability, for any damages including, but not limited to indirect or consequential and/or loss of life._
+
+## Credit
+- Thanks to @Paul_GD for the original idea ([prusa3d Discord](https://discord.com/invite/ArjqkbG))
+- Thanks to [@robee](https://forum.prusaprinters.org/forum/profile/robee/) for the detailed pictures
