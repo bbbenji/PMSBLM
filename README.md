@@ -4,7 +4,7 @@
 > 
 Instead of relying on a fixed plane which depends on your Y-carriage being perfectly level, the idea is to make it so the heated bed floats on the Y-carriage and allow for very fine adjustments. Compared to the MK3 Nylock Mod which uses springs which may deform over time due to drastic temperature changes and pressure, this mod leverages the properties of high-temp silicone to adjust the height more permanently.
 
-![enter image description here](https://i.imgur.com/b9tImfk.jpg)
+<a href="https://i.imgur.com/b9tImfk.jpg"><img src="https://i.imgur.com/b9tImfk.jpg" width="50%"></a>
 
 ---
 
@@ -52,35 +52,35 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 2.  Power off the printer.
 3.  Cut 8 pieces of silicone tubing using the jig linked above. Or if you have a steady hand, cut 8 x 10mm pieces without the jig.
 
-![enter image description here](https://i.imgur.com/xvDJFsO.jpg)
-![enter image description here](https://i.imgur.com/SrOH7dc.jpg)
+<a href="https://i.imgur.com/xvDJFsO.jpg"><img src="https://i.imgur.com/xvDJFsO.jpg" width="49%"></a>
+<a href="https://i.imgur.com/SrOH7dc.jpg"><img src="https://i.imgur.com/SrOH7dc.jpg" width="49%"></a>
 
 4.  Remove printbed
 5.  Remove heatbed. Follow the reverse order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
 
-![enter image description here](https://i.imgur.com/ayQvKFn.png)
+<a href="https://i.imgur.com/ayQvKFn.png"><img src="https://i.imgur.com/ayQvKFn.png" width="100%"></a>
 
 6.  Remove the 8 3mm screws and spacers along the outside of the Y carriage (leave the center screw & spacer)
 
-![enter image description here](https://i.imgur.com/DbVWOTS.jpg)
-![enter image description here](https://i.imgur.com/yH681cV.jpg)
-![enter image description here](https://i.imgur.com/9xbBh58.jpg)
+<a href="https://i.imgur.com/DbVWOTS.jpg"><img src="https://i.imgur.com/DbVWOTS.jpg" width="33%"></a>
+<a href="https://i.imgur.com/yH681cV.jpg"><img src="https://i.imgur.com/yH681cV.jpg" width="33%"></a>
+<a href="https://i.imgur.com/9xbBh58.jpg"><img src="https://i.imgur.com/9xbBh58.jpg" width="33%"></a>
 
 7.  Replace the heatbed while placing the cut silicone tubing in place of the previous metal spacers (between the carriage and the bed). Place the 8 Torx screws through the heatbed, silicone tube and carriage to hold it all together.
 
-![enter image description here](https://i.imgur.com/c1Hzzbu.jpg)
-![enter image description here](https://i.imgur.com/zLXSj0W.jpg)
+<a href="https://i.imgur.com/c1Hzzbu.jpg"><img src="https://i.imgur.com/c1Hzzbu.jpg" width="49%"></a>
+<a href="https://i.imgur.com/zLXSj0W.jpg"><img src="https://i.imgur.com/zLXSj0W.jpg" width="49%"></a>
 
 8.  Carefully apply pressure to a corner Torx screw to compress the silicone tube and loosely attach a low-profile 3mm nut.
 9.  Go to the opposite corner and do the same. Now the other two corners and then the remaining screws.  Be very careful here, you can break the heatbed if it bends too much.
 10.  Start tightening the screws back into place until approximately 6mm between the Y carriage and the heatbed. ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
 
-![enter image description here](https://i.imgur.com/ayQvKFn.png)
-![enter image description here](https://i.imgur.com/Lo9Id0w.jpg)
+<a href="https://i.imgur.com/ayQvKFn.png"><img src="https://i.imgur.com/ayQvKFn.png" width="100%"></a>
+<a href="https://i.imgur.com/Lo9Id0w.jpg"><img src="https://i.imgur.com/Lo9Id0w.jpg" width="50%"></a>
 
 11.  Now screw in the center screw until tight.
 
-![enter image description here](https://i.imgur.com/sZoehVA.jpg)
+<a href="https://i.imgur.com/sZoehVA.jpg"><img src="https://i.imgur.com/sZoehVA.jpg" width="50%"></a>
 
 ## Leveling Procedure
 1.  Power on the printer
