@@ -1,7 +1,7 @@
 # Prusa Mini Silicone Bed Leveling Mod
 
 > Sometimes Mesh Bed Leveling just isn't enough.
-> 
+
 Instead of relying on a fixed plane which depends on your Y-carriage being perfectly level, the idea is to make it so the heated bed floats on the Y-carriage and allow for very fine adjustments. Compared to the MK3 Nylock Mod which uses springs which may deform over time due to drastic temperature changes and pressure, this mod leverages the properties of high-temp silicone to adjust the height more permanently.
 
 <a href="https://i.imgur.com/b9tImfk.jpg"><img src="https://i.imgur.com/b9tImfk.jpg" width="100%"></a>
@@ -71,9 +71,9 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 <a href="https://i.imgur.com/5pzxcsA.jpg"><img src="https://i.imgur.com/5pzxcsA.jpg" width="49%"></a>
 <a href="https://i.imgur.com/zLXSj0W.jpg"><img src="https://i.imgur.com/zLXSj0W.jpg" width="49%"></a>
 
-8.  Carefully apply pressure to a corner Torx screw to compress the silicone tube and loosely attach a low-profile 3mm nut.
-9.  Go to the opposite corner and do the same. Now the other two corners and then the remaining screws.  Be very careful here, you can break the heatbed if it bends too much.
-10.  Start tightening the screws back into place until approximately 6mm between the Y carriage and the heatbed. ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
+8.  Carefully apply pressure to a corner Torx screw to compress the silicone tube and loosely attach a low-profile 3mm nut. This step may not be that easy. The silicone tube is very hard to compress (we want that). Just be careful.
+9.  Go to the opposite corner and do the same. Now the other two corners and then the remaining screws. Again, be very careful here, you can break the heatbed if it bends too much!
+10.  Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
 
 <a href="https://i.imgur.com/ayQvKFn.png"><img src="https://i.imgur.com/ayQvKFn.png" width="100%"></a>
 <a href="https://i.imgur.com/Lo9Id0w.jpg"><img src="https://i.imgur.com/Lo9Id0w.jpg" width="50%"></a>
@@ -87,24 +87,28 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 2.  Plug in USB-B from computer to the printer
 3.  Fire up Pronterface or OctoPrint and hit the connect to printer button
 4.  In the bottom right text box, enter the following GCode followed by the enter key. `M104 S170` set extruder temp for bed leveling
-    
+    ```
     M140 S60 ; set bed temp  
     M109 R170 ; wait for bed leveling temp  
     M190 S60 ; wait for bed temp
+    ```
     
 5.  Once the temperature has reached the target, input the following GCode
-    
-    G28 ; home all without mesh bed level  
+    ```
+    G28 ; home all without mesh bed level`
     G29 ; mesh bed leveling
+    ```
     
-6.  Now, wait for the mesh leveling to complete.
+6.  Now, wait for the mesh leveling to complete.  
 	You should see output something like this:
-	|            |           |            |            |
-	|--------|--------|--------|--------|
-	| \-0.021 | \+0.021  | \-0.024 | \-0.004 |
-	| \-0.021 | \+0.023  | \+0      | \-0.023 |
-	| \+0.01   | \-0.047 | \-0.064 | \-0.056 |
-	| \+0.002  | \+0.015  | \-0.057 | \-0.015 |
+	```
+	Bilinear Leveling Grid:
+	     0      1      2      3
+	0 -0.048 -0.040 -0.066 -0.035
+	1 -0.040 -0.030 -0.044 -0.010
+	2 -0.065 -0.050 -0.061 -0.047
+	3 -0.347 -0.029 -0.045 -0.155
+	```
 
 8.  Copy the results and paste them into the [spreadsheet (B3:E6) here](https://docs.google.com/spreadsheets/d/1iDbB3aLflnnJze0St2_mDPMZZynlTgUOanb5mXP_Qng/edit?usp=sharing) (make a copy first)  
     **You might need to remove any `+` signs**
