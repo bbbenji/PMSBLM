@@ -86,8 +86,9 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 1.  Power on the printer
 2.  Plug in USB-B from computer to the printer
 3.  Fire up Pronterface or OctoPrint and hit the connect to printer button
-4.  In the bottom right text box, enter the following GCode followed by the enter key. `M104 S170` set extruder temp for bed leveling
+4.  In the bottom right text box, enter the following GCode followed by the enter key.
     ```
+    M104 S170 ; set extruder temp for bed leveling
     M140 S60 ; set bed temp  
     M109 R170 ; wait for bed leveling temp  
     M190 S60 ; wait for bed temp
