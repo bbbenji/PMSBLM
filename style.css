@@ -1,0 +1,41 @@
+.wrapper {
+  padding: 1rem;
+  width: 400px;
+  margin: 0 auto;
+}
+
+h1, h2, a {
+  text-align: center;
+  margin: 0;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+a, textarea, button {
+  display: block;
+  margin: 0 0 1rem 0;
+}
+
+.grid-container {
+  margin: 0 0 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "top_left top_middle top_right"
+                       "middle_left center middle_right"
+                       "bottom_left bottom_middle bottom_right";
+}
+
+.top_left { grid-area: top_left; }
+.top_middle { grid-area: top_middle; }
+.top_right { grid-area: top_right; }
+.middle_left { grid-area: middle_left; }
+.center { grid-area: center; }
+.middle_right { grid-area: middle_right; }
+.bottom_left { grid-area: bottom_left; }
+.bottom_middle { grid-area: bottom_middle; }
+.bottom_right { grid-area: bottom_right; }

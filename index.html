@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <title>Prusa Mini Silicone Bed Leveling Mod</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+
+    <h1>Prusa Mini Silicone Bed Leveling Mod</h1>
+    <h2>Convert G29 absolute values to relative ones.</h2>
+
+    <div class="wrapper">
+
+      <a href="https://github.com/bbbenji/PMSBLM">See https://github.com/bbbenji/PMSBLM for more info</a>
+
+      <textarea id="input" rows="5">
+0 +0.048 -0.040 -0.066 -0.035
+1 -0.040 -0.030 -0.044 +0.010
+2 -0.065 -0.050 +0.061 -0.047
+3 -0.347 +0.029 -0.045 -0.155
+      </textarea>
+
+      <button id="convert">convert</button>
+
+      Raw values:
+      <div id="raw" class="grid-container">
+        <div class="top_left">0</div>
+        <div class="top_middle">0</div>
+        <div class="top_right">0</div>
+        <div class="middle_left">0</div>
+        <div class="center">0</div>
+        <div class="middle_right">0</div>
+        <div class="bottom_left">0</div>
+        <div class="bottom_middle">0</div>
+        <div class="bottom_right">0</div>
+      </div>
+
+      Degrees:
+      <div id="degrees" class="grid-container">
+        <div class="top_left">0</div>
+        <div class="top_middle">0</div>
+        <div class="top_right">0</div>
+        <div class="middle_left">0</div>
+        <div class="center">0</div>
+        <div class="middle_right">0</div>
+        <div class="bottom_left">0</div>
+        <div class="bottom_middle">0</div>
+        <div class="bottom_right">0</div>
+      </div>
+
+      Fractional Turns:
+      <div id="fractions" class="grid-container">
+        <div class="top_left">0</div>
+        <div class="top_middle">0</div>
+        <div class="top_right">0</div>
+        <div class="middle_left">0</div>
+        <div class="center">0</div>
+        <div class="middle_right">0</div>
+        <div class="bottom_left">0</div>
+        <div class="bottom_middle">0</div>
+        <div class="bottom_right">0</div>
+      </div>
+
+    </div>
+
+  </body>
+</html>
