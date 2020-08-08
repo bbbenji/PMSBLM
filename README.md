@@ -107,21 +107,17 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 6.  Now, wait for the mesh leveling to complete.  
 	You should see output something like this:
 	```
-	Bilinear Leveling Grid:
-	     0      1      2      3
 	0 -0.048 -0.040 -0.066 -0.035
 	1 -0.040 -0.030 -0.044 -0.010
 	2 -0.065 -0.050 -0.061 -0.047
 	3 -0.347 -0.029 -0.045 -0.155
 	```
 
-8.  Copy the results and paste them into the [spreadsheet (B3:E6) here](https://docs.google.com/spreadsheets/d/1iDbB3aLflnnJze0St2_mDPMZZynlTgUOanb5mXP_Qng/edit?usp=sharing) (make a copy first)  
-    **You might need to remove any `+` signs**
-9.  Copy the output results (A12:H18) and paste them into the website here:  [https://pcboy.github.io/g81_relative/](https://pcboy.github.io/g81_relative/)
-10.  Follow the instructions for which screws to turn and how far
-11.  Repeat steps 5-9 until the numbers from the results section on the website are no more than .02 difference between your biggest and smallest numbers. Ideally 0.
-12.  Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
-13.  Spend loads of quality time printing the bottom 2mm of Benchy and getting that live-z value perfect.
+7.  Copy the results and paste them into the textarea on the Prusa Mini G29 converter page found here: [https://bbbenji.github.io/PMSBLM/](https://bbbenji.github.io/PMSBLM/)
+8.  Follow the instructions for which screws to turn and how far
+9.  Repeat steps 5-8 until the numbers from the results section on the website are no more than .02 difference between your biggest and smallest numbers. Ideally 0.
+10.  Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
+11.  Spend loads of quality time printing the bottom 2mm of Benchy and getting that live-z value perfect.
 
 ## Notes
 -   Why Torx screws? Because the Mini's heatbed screw holes are not as deep as the Mk3's. Hex screws will sit proud of the bed.
