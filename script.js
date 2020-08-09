@@ -2,6 +2,7 @@ screw_pitch = 0.5;
 
 function raw(position) {
   pos = position.toFixed(2);
+  pos =  ((pos > 0) ? '+' : '') + pos
   return pos;
 }
 
