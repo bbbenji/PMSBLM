@@ -47,7 +47,7 @@ window.onload = function() {
     var textareaValue = textarea.value;
     var arr = textareaValue.split(/\s+/).map(x=>+x);
 
-    center = (arr[7]+arr[8]+arr[13]+arr[13])/4;
+    center = (arr[7]+arr[8]+arr[12]+arr[13])/4;
 
     top_left = arr[16] - center;
     top_middle = ((arr[17]+arr[18])/2) - center;
