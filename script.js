@@ -44,9 +44,10 @@ function convert() {
 window.onload = function() {
   document.getElementById("convert").onclick = function fun() {
 
-    var textarea = document.querySelector('textarea#input');
-    var textareaValue = textarea.value.trim();
-    var arr = textareaValue.split(/\s+/).map(x=>+x);
+    textarea = document.querySelector('textarea#input');
+    textareaValue = textarea.value;
+    textareaValue = textareaValue.replace(/0[ \t]+1[ \t]+2[ \t]+3\n/g, "").trim(); // Remove "0 1 2 3" if exists & trim whitespace
+    arr = textareaValue.split(/\s+/).map(x=>+x);
 
     center = (arr[7]+arr[8]+arr[12]+arr[13])/4;
 
