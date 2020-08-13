@@ -45,7 +45,7 @@ window.onload = function() {
   document.getElementById("convert").onclick = function fun() {
 
     var textarea = document.querySelector('textarea#input');
-    var textareaValue = textarea.value;
+    var textareaValue = textarea.value.trim();
     var arr = textareaValue.split(/\s+/).map(x=>+x);
 
     center = (arr[7]+arr[8]+arr[12]+arr[13])/4;
