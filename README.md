@@ -2,7 +2,7 @@
 
 > Sometimes Mesh Bed Leveling just isn't enough.
 
-Instead of relying on a fixed plane which depends on your Y-carriage being perfectly level, the idea is to make it so the heated bed floats on the Y-carriage and allow for very fine adjustments. Compared to the MK3 Nylock Mod which uses springs which may deform over time due to drastic temperature changes and pressure, this mod leverages the properties of high-temp silicone to adjust the height more permanently.
+Instead of relying on a fixed plane which depends on your Y-carriage being perfectly level, the idea is to make it so the heated bed floats on the Y-carriage and allow for very fine adjustments. Compared to other mods that rely on springs which may deform over time due to drastic temperature changes and pressure, this mod leverages the properties of high-temp silicone to adjust the height more permanently. Due to the Y-carriage not having threaded holes for mounting the heated bed, the i3 nylock mod is not possible.
 
 <a href="/images/pmsblm-full-assembly.jpeg"><img src="/images/pmsblm-full-assembly.jpeg" width="100%"></a>
 
