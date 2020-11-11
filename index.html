@@ -5,6 +5,8 @@
     <title>Prusa Mini Silicone Bed Leveling Mod</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <!-- Load plotly.js into the DOM -->
+	  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174992597-1"></script>
     <script>
@@ -18,60 +20,74 @@
 
     <h1>Prusa Mini Silicone Bed Leveling Mod</h1>
     <h2>Convert G29 absolute values to relative ones.</h2>
+    <a href="https://github.com/bbbenji/PMSBLM">See https://github.com/bbbenji/PMSBLM for more info</a>
 
     <div class="wrapper">
 
-      <a href="https://github.com/bbbenji/PMSBLM">See https://github.com/bbbenji/PMSBLM for more info</a>
+      <div class="flex-container">
 
-      <textarea id="input" rows="5">
+        <div class="flex-item">
+
+          <textarea id="input" rows="5">
 0 +0.048 -0.040 -0.066 -0.035
 1 -0.040 -0.030 -0.044 +0.010
 2 -0.065 -0.050 +0.061 -0.047
 3 -0.347 +0.029 -0.045 -0.155
-      </textarea>
+          </textarea>
 
-      <button id="convert">convert</button>
+          <button id="convert">Convert</button>
 
-      Raw values:
-      <div id="raw" class="grid-container">
-        <div class="top_left">±0.00</div>
-        <div class="top_middle">±0.00</div>
-        <div class="top_right">±0.00</div>
-        <div class="middle_left">±0.00</div>
-        <div class="center">±0.00</div>
-        <div class="middle_right">±0.00</div>
-        <div class="bottom_left">±0.00</div>
-        <div class="bottom_middle">±0.00</div>
-        <div class="bottom_right">±0.00</div>
-      </div>
+          Raw values:
+          <div id="raw" class="grid-container">
+            <div class="top_left">±0.00</div>
+            <div class="top_middle">±0.00</div>
+            <div class="top_right">±0.00</div>
+            <div class="middle_left">±0.00</div>
+            <div class="center">±0.00</div>
+            <div class="middle_right">±0.00</div>
+            <div class="bottom_left">±0.00</div>
+            <div class="bottom_middle">±0.00</div>
+            <div class="bottom_right">±0.00</div>
+          </div>
 
-      Degrees:
-      <div id="degrees" class="grid-container">
-        <div class="top_left">0°</div>
-        <div class="top_middle">0°</div>
-        <div class="top_right">0°</div>
-        <div class="middle_left">0°</div>
-        <div class="center">0°</div>
-        <div class="middle_right">0°</div>
-        <div class="bottom_left">0°</div>
-        <div class="bottom_middle">0°</div>
-        <div class="bottom_right">0°</div>
-      </div>
+          Degrees:
+          <div id="degrees" class="grid-container">
+            <div class="top_left">0°</div>
+            <div class="top_middle">0°</div>
+            <div class="top_right">0°</div>
+            <div class="middle_left">0°</div>
+            <div class="center">0°</div>
+            <div class="middle_right">0°</div>
+            <div class="bottom_left">0°</div>
+            <div class="bottom_middle">0°</div>
+            <div class="bottom_right">0°</div>
+          </div>
 
-      Fractional Turns:
-      <div id="fractions" class="grid-container">
-        <div class="top_left">0</div>
-        <div class="top_middle">0</div>
-        <div class="top_right">0</div>
-        <div class="middle_left">0</div>
-        <div class="center">0</div>
-        <div class="middle_right">0</div>
-        <div class="bottom_left">0</div>
-        <div class="bottom_middle">0</div>
-        <div class="bottom_right">0</div>
-      </div>
+          Fractional Turns:
+          <div id="fractions" class="grid-container">
+            <div class="top_left">0</div>
+            <div class="top_middle">0</div>
+            <div class="top_right">0</div>
+            <div class="middle_left">0</div>
+            <div class="center">0</div>
+            <div class="middle_right">0</div>
+            <div class="bottom_left">0</div>
+            <div class="bottom_middle">0</div>
+            <div class="bottom_right">0</div>
+          </div>
 
-    </div>
+        </div><!-- /flex-item -->
+
+        <div class="flex-item">
+          <span class="hide">Click "Convert" to generate plot.</span>
+          <div id="ploty">
+            <!-- Plotly chart will be drawn inside this DIV -->
+          </div>
+        </div><!-- /flex-item -->
+
+      </div><!-- /flex-container -->
+
+    </div><!-- /wrapper -->
 
   </body>
 </html>

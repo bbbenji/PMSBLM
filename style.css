@@ -1,6 +1,6 @@
 .wrapper {
   padding: 1rem;
-  width: 400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -10,7 +10,7 @@ h1, h2, a {
 }
 
 textarea {
-  width: 100%;
+  width: calc(100% - 1rem - 2px);
   padding: 0.5rem;
 }
 
@@ -18,6 +18,40 @@ a, textarea, button {
   display: block;
   margin: 0 0 1rem 0;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: stretch;
+  align-items: center;
+}
+
+@media screen and (max-width: 900px) {
+  .flex-container {
+    flex-direction: column;
+  }
+}
+
+.flex-item {
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+.flex-item:nth-child(1) {
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+}
+
+.flex-item:nth-child(2) {
+  text-align: center;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
+}
+
 
 .grid-container {
   margin: 0 0 1rem 0;
@@ -39,3 +73,14 @@ a, textarea, button {
 .bottom_left { grid-area: bottom_left; }
 .bottom_middle { grid-area: bottom_middle; }
 .bottom_right { grid-area: bottom_right; }
+
+.hide {
+  display: block;
+  margin: 1rem 0 0 0;
+  padding: 1rem;
+  border: solid 1px gray;
+}
+
+.hide.hidden {
+  display: none;
+}
