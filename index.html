@@ -1,9 +1,98 @@
 <!doctype html>
 <html lang=en>
   <head>
-    <meta charset=utf-8>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Prusa Mini Silicone Bed Leveling Mod</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <div class="container mb-5">
+      <div class="row mt-3">
+
+        <div class="col-12 text-center">
+          <h1>Prusa Mini Silicone Bed Leveling Mod</h1>
+          <h3>Convert G29 absolute values to relative ones</h3>
+          <span>See <a href="https://github.com/bbbenji/PMSBLM">github.com/bbbenji/PMSBLM</a> for more info</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-5 offset-md-0 offset-lg-1">
+
+          <h5 class="pt-3">Input</h5>
+          <hr />
+          <div class="form-floating">
+            <textarea id="input" class="form-control" placeholder="Output of G29">
+0 +0.048 -0.040 -0.066 -0.035
+1 -0.040 -0.030 -0.044 +0.010
+2 -0.065 -0.050 +0.061 -0.047
+3 -0.347 +0.029 -0.045 -0.155</textarea>
+            <label for="input">Output of G29</label>
+          </div>
+
+          <div class="d-grid gap-2 mt-3">
+            <button id="convert" class="btn btn-primary" type="button">Convert</button>
+          </div>
+
+          <h5 class="pt-3">Raw values</h5>
+          <hr />
+          <div id="raw" class="grid-container font-monospace py-3">
+            <div class="back_left" data-toggle="popover">±0.00 mm</div>
+            <div class="back_center" data-toggle="popover">±0.00 mm</div>
+            <div class="back_right" data-toggle="popover">±0.00 mm</div>
+            <div class="center_left" data-toggle="popover">±0.00 mm</div>
+            <div class="center_center" data-toggle="popover">±0.00 mm</div>
+            <div class="center_right" data-toggle="popover">±0.00 mm</div>
+            <div class="front_left" data-toggle="popover">±0.00 mm</div>
+            <div class="front_center" data-toggle="popover">±0.00 mm</div>
+            <div class="front_right" data-toggle="popover">±0.00 mm</div>
+          </div>
+  
+          <h5 class="pt-3">Degrees</h5>
+          <hr />
+          <div id="degrees" class="grid-container font-monospace py-3">
+            <div class="back_left" data-toggle="popover">0° 🗸</div>
+            <div class="back_center" data-toggle="popover">0° 🗸</div>
+            <div class="back_right" data-toggle="popover">0° 🗸</div>
+            <div class="center_left" data-toggle="popover">0° 🗸</div>
+            <div class="center_center" data-toggle="popover">0° 🗸</div>
+            <div class="center_right" data-toggle="popover">0° 🗸</div>
+            <div class="front_left" data-toggle="popover">0° 🗸</div>
+            <div class="front_center" data-toggle="popover">0° 🗸</div>
+            <div class="front_right" data-toggle="popover">0° 🗸</div>
+          </div>
+  
+          <h5 class="pt-3">Fractional Turns</h5>
+          <hr />
+          <div id="fractions" class="grid-container font-monospace py-3">
+            <div class="back_left" data-toggle="popover">0 🗸</div>
+            <div class="back_center" data-toggle="popover">0 🗸</div>
+            <div class="back_right" data-toggle="popover">0 🗸</div>
+            <div class="center_left" data-toggle="popover">0 🗸</div>
+            <div class="center_center" data-toggle="popover">0 🗸</div>
+            <div class="center_right" data-toggle="popover">0 🗸</div>
+            <div class="front_left" data-toggle="popover">0 🗸</div>
+            <div class="front_center" data-toggle="popover">0 🗸</div>
+            <div class="front_right" data-toggle="popover">0 🗸</div>
+          </div>
+        </div><!-- /col -->
+        <div class="col-12 col-md-6 col-lg-5">
+          <h5 class="pt-3">Plot</h5>
+          <hr />
+          <span class="hide text-muted text-center">Click "Convert" to generate plot.</span>
+          <div id="ploty">
+            <!-- Plotly chart will be drawn inside this DIV -->
+          </div>
+        </div><!-- /col -->
+      </div><!-- /row -->
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-t6I8D5dJmMXjCsRLhSzCltuhNZg6P10kE0m0nAncLUjH6GeYLhRU1zfLoW3QNQDF" crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <!-- Load plotly.js into the DOM -->
 	  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
@@ -15,79 +104,6 @@
       gtag('js', new Date());
       gtag('config', 'UA-174992597-1');
     </script>
-  </head>
-  <body>
-
-    <h1>Prusa Mini Silicone Bed Leveling Mod</h1>
-    <h2>Convert G29 absolute values to relative ones.</h2>
-    <a href="https://github.com/bbbenji/PMSBLM">See https://github.com/bbbenji/PMSBLM for more info</a>
-
-    <div class="wrapper">
-
-      <div class="flex-container">
-
-        <div class="flex-item">
-
-          <textarea id="input" rows="5">
-0 +0.048 -0.040 -0.066 -0.035
-1 -0.040 -0.030 -0.044 +0.010
-2 -0.065 -0.050 +0.061 -0.047
-3 -0.347 +0.029 -0.045 -0.155
-          </textarea>
-
-          <button id="convert">Convert</button>
-
-          Raw values:
-          <div id="raw" class="grid-container">
-            <div class="top_left">±0.00</div>
-            <div class="top_middle">±0.00</div>
-            <div class="top_right">±0.00</div>
-            <div class="middle_left">±0.00</div>
-            <div class="center">±0.00</div>
-            <div class="middle_right">±0.00</div>
-            <div class="bottom_left">±0.00</div>
-            <div class="bottom_middle">±0.00</div>
-            <div class="bottom_right">±0.00</div>
-          </div>
-
-          Degrees:
-          <div id="degrees" class="grid-container">
-            <div class="top_left">0°</div>
-            <div class="top_middle">0°</div>
-            <div class="top_right">0°</div>
-            <div class="middle_left">0°</div>
-            <div class="center">0°</div>
-            <div class="middle_right">0°</div>
-            <div class="bottom_left">0°</div>
-            <div class="bottom_middle">0°</div>
-            <div class="bottom_right">0°</div>
-          </div>
-
-          Fractional Turns:
-          <div id="fractions" class="grid-container">
-            <div class="top_left">0</div>
-            <div class="top_middle">0</div>
-            <div class="top_right">0</div>
-            <div class="middle_left">0</div>
-            <div class="center">0</div>
-            <div class="middle_right">0</div>
-            <div class="bottom_left">0</div>
-            <div class="bottom_middle">0</div>
-            <div class="bottom_right">0</div>
-          </div>
-
-        </div><!-- /flex-item -->
-
-        <div class="flex-item">
-          <span class="hide">Click "Convert" to generate plot.</span>
-          <div id="ploty">
-            <!-- Plotly chart will be drawn inside this DIV -->
-          </div>
-        </div><!-- /flex-item -->
-
-      </div><!-- /flex-container -->
-
-    </div><!-- /wrapper -->
 
   </body>
 </html>
