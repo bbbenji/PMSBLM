@@ -84,12 +84,3 @@ a, textarea, button {
 .hide.hidden {
   display: none;
 }
-
-.CircleDiv {
-   width: 48px;
-   height: 48px;
-}
-
-.CircleDiv img {
-   width: 100%;
-}
