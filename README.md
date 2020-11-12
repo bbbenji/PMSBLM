@@ -55,7 +55,11 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 ## Installation/Setup Procedure
 
-1.  Make sure your X-Z assembly is square with the Y assembly. If you can't get it right, try shimming.
+1.  Make sure your X-Z assembly is square with the Y assembly.
+    If you find that adjustments are necessary, please follow the [official KB article](https://help.prusa3d.com/en/article/xz-axis-skew-correction-mini_158518).
+
+<a href="/images/XZ-axis_skew_correction.png"><img src="/images/XZ-axis_skew_correction.png" width="100%"></a>
+
 2.  Power off the printer.
 3.  Cut 8 pieces of silicone tubing using the jig linked above. Or if you have a steady hand, cut 8 x 10mm pieces without the jig.
 
