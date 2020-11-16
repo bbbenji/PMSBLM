@@ -1,5 +1,14 @@
 textarea {
-  height: calc(10rem + 2px) !important;
+  min-height: calc(10rem + 2px) !important;
+}
+
+.form-switch {
+  display: flex;
+  align-items: center;
+}
+.form-switch .form-check-input {
+  margin-right: 0.5rem;
+  display: inline-table;
 }
 
 .hide {
@@ -26,6 +35,7 @@ textarea {
 
 .grid-container div {
   cursor: pointer;
+  padding: 0 0.5rem;
 }
 
 .back_left { grid-area: back_left; text-align: left; }
@@ -38,39 +48,32 @@ textarea {
 .front_center { grid-area: front_center; text-align: center; }
 .front_right { grid-area: front_right; text-align: right; }
 
-.back_left:before {
-  content: "Back Left";
+.back_left:before, .back_right:before,
+.front_left:before, .front_right:before {
   position: absolute;
-  top: 0;
-  right: 0;
   width: 100%;
   font-size: 0.75rem;
   color: #6c757d;
+  pointer-events: none;
+}
+
+.back_left:before {
+  content: "Back Left";
+  top: 0;
+  left: 0;
 }
 .back_right:before {
   content: "Back Right";
-  position: absolute;
   top: 0;
   right: 0;
-  width: 100%;
-  font-size: 0.75rem;
-  color: #6c757d;
 }
 .front_left:before {
   content: "Front Left";
-  position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
-  font-size: 0.75rem;
-  color: #6c757d;
 }
 .front_right:before {
   content: "Front Right";
-  position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
-  font-size: 0.75rem;
-  color: #6c757d;
+  right: 0;
 }

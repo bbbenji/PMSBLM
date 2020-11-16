@@ -1,17 +1,21 @@
 screw_pitch = 0.5;
-cw = "CW&nbsp;&nbsp;⭮";
-ccw = "CCW ⭯";
+cw = 'CW&nbsp;&nbsp;<span class="mdi mdi-rotate-right text-danger"></span>';
+ccw = 'CCW <span class="mdi mdi-rotate-left text-primary"></span>';
 
 function raw(position) {
   pos = position.toFixed(2);
-  pos =  ((pos > 0) ? '+' : '') + pos + ' mm'
-  return pos;
+  if (pos == 0) {
+    return '±0.00 mm <span class="mdi mdi-check text-success"></span>';
+  } else {
+    pos =  ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
+    return pos;
+  }
 }
 
 function degrees(position) {
   deg = Math.round((position/screw_pitch*360));
   if (deg == 0) {
-    return deg + '° 🗸';
+    return deg + '° <span class="mdi mdi-check text-success"></span>';
   } else {
     deg = Math.abs(deg) + '°' + ' ' + ((deg > 0) ? cw : ccw);
     return deg;
@@ -35,7 +39,7 @@ function fractions(position) {
   rat = Math.floor(numerator) + '/' + Math.floor(denominator);
   rat = ((rat == '0/1') ? 0 : rat);
   if (rat == 0) {
-    return rat + ' 🗸';
+    return rat + ' <span class="mdi mdi-check text-success"></span>';
   } else {
     rat = rat + ' ' + ((position > 0) ? cw : ccw);
     return rat;
@@ -156,8 +160,7 @@ function popovers() {
   var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl, {
       html: true,
-      trigger: 'hover',
-      placement: 'left'
+      trigger: 'hover'
     })
   })
 }
