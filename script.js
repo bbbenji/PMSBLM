@@ -106,6 +106,7 @@ window.onload = function() {
 
     textarea = document.querySelector('textarea#input');
     textareaValue = textarea.value;
+    textareaValue = textareaValue.replace(/\w+:\s*/g, '').trim(); // Remove 'Recv: ' if exists & trim whitespace
     textareaValue = textareaValue.replace(/0[ \t]+1[ \t]+2[ \t]+3\n/g, '').trim(); // Remove '0 1 2 3' if exists & trim whitespace
     let arr = textareaValue.split(/\s+/).map(x=>+x);
 
