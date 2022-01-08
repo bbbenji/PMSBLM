@@ -7,7 +7,7 @@ function raw(position) {
   if (pos == 0) {
     return '±0.00 mm <span class="mdi mdi-check text-success"></span>';
   } else {
-    pos =  ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
+    pos = ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
     return pos;
   }
 }
@@ -23,16 +23,16 @@ function degrees(position) {
 }
 
 // https://stackoverflow.com/a/23575406
-var gcd = function(a, b) {
+let gcd = function(a, b) {
   if (b < 0.0000001) return a; // Since there is a limited precision we need to limit the value.
   return gcd(b, Math.floor(a % b)); // Discard any fractions due to limitations in precision.
 };
 function fractions(position) {
   abs = Math.abs(position/screw_pitch).toFixed(1);
-  var len = abs.toString().length - 2;
-  var denominator = Math.pow(10, len);
-  var numerator = abs * denominator;
-  var divisor = gcd(numerator, denominator);
+  let len = abs.toString().length - 2;
+  let denominator = Math.pow(10, len);
+  let numerator = abs * denominator;
+  let divisor = gcd(numerator, denominator);
   numerator /= divisor;
   denominator /= divisor;
   
@@ -55,25 +55,47 @@ function convert() {
   });
 }
 
-function plot(arr) {
-  // Remove line numbers from array
+// Remove line numbers from array
+function clean(arr) {
   let forDeletion = [0, 5, 10, 15]
-  for (var i = forDeletion.length -1; i >= 0; i--)
+  for (let i = forDeletion.length -1; i >= 0; i--)
   arr.splice(forDeletion[i],1);
+}
 
+function minMax(arr) {
+  let min = Math.min(...arr);
+  let max = Math.max(...arr);
+  min = ((min >= 0) ? '+' : '') + min;
+  max = ((max >= 0) ? '+' : '') + max;
+  document.querySelector('#stats .min').innerHTML = min;
+  document.querySelector('#stats .max').innerHTML = max;
+}
+
+function maxDiff(arr) {
+  let diff = Math.max(...arr) - Math.min(...arr);
+  document.querySelector('#stats .max_diff').innerHTML = diff.toFixed(3);
+}
+
+function avgDev(arr) {
+  let avg = arr.reduce((a, b) => a + b) / arr.length;
+  avg = ((avg >= 0) ? '+' : '') + avg.toFixed(3);
+  document.querySelector('#stats .avg_dev').innerHTML = avg;
+}
+
+function plot(arr) {
   // Reverse the array because MBL output is rotated
   arr = arr.reverse();
 
-  var arrs = [], size = 4;
+  let arrs = [], size = 4;
   while (arr.length > 0)
   arrs.push(arr.splice(0, size));
 
   // Plotly specific
-  var data = [{
+  let data = [{
             z: arrs,
             type: 'surface'
           }];      
-  var layout = {
+  let layout = {
     // title: '',
     autosize: true,
     margin: {
@@ -109,31 +131,41 @@ window.onload = function() {
     textareaValue = textareaValue.replace(/\w+:\s*/g, '').trim(); // Remove 'Recv: ' if exists & trim whitespace
     textareaValue = textareaValue.replace(/0[ \t]+1[ \t]+2[ \t]+3\n/g, '').trim(); // Remove '0 1 2 3' if exists & trim whitespace
     let arr = textareaValue.split(/\s+/).map(x=>+x);
-
-    center = (arr[7]+arr[8]+arr[12]+arr[13])/4;
-
-    back_left = arr[16] - center;
-    back_center = ((arr[17]+arr[18])/2) - center;
-    back_right = arr[19] - center;
     
-    center_left = ((arr[6]+arr[11])/2) - center;
-    center_right = ((arr[9]+arr[14])/2) - center;
+  // Raw
+  //  1  2  3  4
+  //  6  7  8  9
+  // 11 12 13 14
+  // 16 17 18 19
+    clean(arr)
+  // Cleaned
+  //  0  1  2  3
+  //  4  5  6  7
+  //  8  9 10 11
+  // 12 13 14 15
+
+    center = (arr[5]+arr[6]+arr[9]+arr[10])/4;
+
+    back_left = arr[12] - center;
+    back_center = ((arr[13]+arr[14])/2) - center;
+    back_right = arr[15] - center;
     
-    front_left = arr[1] - center;
-    front_center = ((arr[2]+arr[3])/2) - center;
-    front_right = arr[4] - center;
+    center_left = ((arr[4]+arr[8])/2) - center;
+    center_right = ((arr[7]+arr[11])/2) - center;
+    
+    front_left = arr[0] - center;
+    front_center = ((arr[1]+arr[2])/2) - center;
+    front_right = arr[3] - center;
 
     convert();
+    minMax(arr);
+    maxDiff(arr);
+    avgDev(arr);
     plot(arr);
     hide();
   }
   popovers()
 }
-
-//  1  2  3  4
-//  6  7  8  9
-// 11 12 13 14
-// 16 17 18 19
 
 // Popovers
 function popovers() {
