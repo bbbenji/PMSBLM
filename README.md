@@ -69,7 +69,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 4.  Remove printbed
 5.  Remove heatbed. Follow the reverse order as show in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
 
-<a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="84%"></a>
+<a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="100%"></a>
 
 6.  Remove the 8 3mm screws and spacers along the outside of the Y carriage (leave the center screw & spacer)
 
@@ -88,7 +88,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 10.  Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. The original spacer is 6mm, so using one you removed is a useful way to measure the gap. TIGHTEN SCREWS BY ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as shown in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
 
-<a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="84%"></a>
+<a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="100%"></a>
 <a href="/images/y-carraige-heatbed-6mm.jpeg"><img src="/images/y-carraige-heatbed-6mm.jpeg" width="50%"></a>
 
 11.  Now screw in the center screw until tight.
