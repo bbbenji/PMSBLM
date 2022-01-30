@@ -67,7 +67,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 <a href="/images/hi-temp-silicone-cutting.jpeg"><img src="/images/hi-temp-silicone-cutting.jpeg" width="49%"></a>
 
 4.  Remove printbed
-5.  Remove heatbed. Follow the reverse order as show in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
+5.  Remove heatbed. Follow the reverse order as show in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
 
 <a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="84%"></a>
 
@@ -86,7 +86,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 9.  Go to the opposite corner and do the same. Now the other two corners and then the remaining screws. Again, be very careful here, you can break the heatbed if it bends too much!
 
-10.  Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. The original spacer is 6mm, so using one you removed is a useful way to measure the gap. TIGHTEN SCREWS BY ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as shown in the [official MK3 documentation](https://help.prusa3d.com/en/guide/7-heatbed-psu-assembly-black-psu_31936#32920).
+10.  Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. The original spacer is 6mm, so using one you removed is a useful way to measure the gap. TIGHTEN SCREWS BY ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as shown in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
 
 <a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="84%"></a>
 <a href="/images/y-carraige-heatbed-6mm.jpeg"><img src="/images/y-carraige-heatbed-6mm.jpeg" width="50%"></a>
