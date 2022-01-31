@@ -38,11 +38,10 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 -   8 M3  **low-profile**  nylon locknuts
 	- [Amazon](https://www.amazon.com/gp/product/B003Z6VHE4/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) (B003Z6VHE4)
 	- Search for product code `AXA1052`, they show up on a number of hobbyist/RC sites.
-
 -   8 M3x16 flat head countersunk  **Torx**  screws (hex *might* not work)
 	- [PL source](https://inoxprostal.pl/din-965-tx-a2-wkrety-metryczne-nierdzewne-plasko-stozkowe-na-torx/3312-din-965-tx-a2-m3x16-mm-wkret-metr-plasko-stozkowy-torx.html)
 	- These are DIN 965 or DIN 7991, so all hex, cross, and torx versions of the screw of size M3x16mm should work.
--   3mm combination wrench
+-   5.5mm (M3) combination wrench
 	- [Printable wrench](https://www.thingiverse.com/thing:2440589)
 -   Computer with Pronterface or OctoPrint
 	- [Pronterface](https://www.pronterface.com/)
@@ -56,20 +55,22 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 ## Installation/Setup Procedure
 
 1.  Make sure your X-Z assembly is square with the Y assembly.
-    If you find that adjustments are necessary, please follow the [official KB article](https://help.prusa3d.com/en/article/xz-axis-skew-correction-mini_158518).
+    If you find that adjustments are necessary, please follow the [official Prusa Mini/Mini+ article](https://help.prusa3d.com/en/article/xz-axis-skew-correction-mini_158518).
 
 <a href="/images/XZ-axis_skew_correction.png"><img src="/images/XZ-axis_skew_correction.png" width="100%"></a>
 
 2.  Power off the printer.
+
 3.  Cut 8 pieces of silicone tubing using the jig linked above. Or if you have a steady hand, cut 8 x 10mm pieces without the jig.
 
 <a href="/images/hi-temp-silicone.jpeg"><img src="/images/hi-temp-silicone.jpeg" width="49%"></a>
 <a href="/images/hi-temp-silicone-cutting.jpeg"><img src="/images/hi-temp-silicone-cutting.jpeg" width="49%"></a>
 
 4.  Remove printbed
-5.  Remove heatbed. Follow the reverse order as show in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
 
-<a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="100%"></a>
+5.  Remove heatbed. Follow the instructions as show in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#156923).
+
+<a href="/images/heatbed-mounting.png"><img src="/images/heatbed-removal.png" width="100%"></a>
 
 6.  Remove the 8 3mm screws and spacers along the outside of the Y carriage (leave the center screw & spacer)
 
@@ -77,7 +78,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 <a href="/images/y-carraige-standoff.jpeg"><img src="/images/y-carraige-standoff.jpeg" width="32%"></a>
 <a href="/images/standoffs.jpeg"><img src="/images/standoffs.jpeg" width="32%"></a>
 
-7.  Replace the heatbed while placing the cut silicone tubing in place of the previous metal spacers (between the carriage and the bed). Place the 8 Torx screws through the heatbed, silicone tube and carriage to hold it all together.
+7.  Replace the heatbed while placing the cut silicone tubing in place of the previous metal spacers (between the carriage and the bed). Place the 8 16mm Torx screws through the heatbed, silicone tube and carriage to hold it all together.
 
 <a href="/images/007.jpeg"><img src="/images/007.jpeg" width="49%"></a>
 <a href="/images/pmsblm-mid-assembly.jpeg"><img src="/images/pmsblm-mid-assembly.jpeg" width="49%"></a>
@@ -91,7 +92,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 <a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="100%"></a>
 <a href="/images/y-carraige-heatbed-6mm.jpeg"><img src="/images/y-carraige-heatbed-6mm.jpeg" width="50%"></a>
 
-11.  Now screw in the center screw until tight.
+11.  Screw in the center screw until tight.
 
 <a href="/images/heatbed-center-screw.jpeg"><img src="/images/heatbed-center-screw.jpeg" width="50%"></a>
 
