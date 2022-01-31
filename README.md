@@ -107,7 +107,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 	```
     M104 S170 ; set extruder temp for bed leveling
     M140 S60 ; set bed temp
-    M109 R170 ; wait for bed leveling temp
+    M109 R170 ; wait for extruder to reach temp
     M190 S60 ; wait for bed temp
     ```
 
@@ -127,7 +127,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 	3 -0.347 -0.029 -0.045 -0.155
 	```
 
-7.  Copy the results and paste them into the textarea on the Prusa Mini G29 converter page found here: [https://bbbenji.github.io/PMSBLM/](https://bbbenji.github.io/PMSBLM/).
+7.  Copy the results and paste them into the text area on the Prusa Mini G29 converter page found here: [https://bbbenji.github.io/PMSBLM/](https://bbbenji.github.io/PMSBLM/).
 
     It has been reported in Windows that using Ctrl+C to copy the text output from Pronterface does not always work, this may cause you to paste in the previous values. Instead, select the text then right-click and click Copy.
 
