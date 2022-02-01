@@ -139,7 +139,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 <a href="/images/after.png"><img src="/images/after.png" width="32%"></a>
 <a href="/images/after_values.png"><img src="/images/after_values.png" width="32%"></a>
 
-    **Remember to replace your steel sheet and let the bed reach temperature before starting step 5.**
+**Remember to replace your steel sheet and let the bed reach temperature before starting step 5.**
 
 10.  Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
 
