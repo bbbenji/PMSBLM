@@ -100,7 +100,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 1.  Power on the printer
 2.  Plug in USB-B from computer to the printer
 3.  Fire up Pronterface or OctoPrint and hit the connect to printer button
-4.  In the bottom right text box, enter the following GCode followed by the enter key.
+4.  In the bottom right text box or Terminal tab, enter the following GCode followed by the enter key.
 
 	**Make sure you replace your steel sheet**
 
@@ -135,9 +135,14 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 9.  Repeat steps 5-8 until the numbers from the results section on the website are no more than .02 difference between your biggest and smallest numbers. Ideally 0.
 
+<a href="/images/before.png"><img src="/images/before.png" width="32%"></a>
+<a href="/images/after.png"><img src="/images/after.png" width="32%"></a>
+<a href="/images/after-values.png"><img src="/images/after-values.png" width="32%"></a>
+
     **Remember to replace your steel sheet and let the bed reach temperature before starting step 5.**
 
 10.  Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
+
 11.  Spend loads of quality time printing the bottom 2mm of Benchy and getting that live-z value perfect.
 
 ## Notes
