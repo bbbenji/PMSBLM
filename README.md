@@ -137,7 +137,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 <a href="/images/before.png"><img src="/images/before.png" width="32%"></a>
 <a href="/images/after.png"><img src="/images/after.png" width="32%"></a>
-<a href="/images/after-values.png"><img src="/images/after-values.png" width="32%"></a>
+<a href="/images/after_values.png"><img src="/images/after_values.png" width="32%"></a>
 
     **Remember to replace your steel sheet and let the bed reach temperature before starting step 5.**
 
