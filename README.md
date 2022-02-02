@@ -1,6 +1,6 @@
-# Prusa Mini Silicone Bed Levelling Mod
+# Prusa Mini Silicone Bed Leveling Mod
 
-> Sometimes Mesh Bed Levelling just isn't enough.
+> Sometimes Mesh Bed Leveling just isn't enough.
 
 Instead of relying on a fixed plane which depends on your Y-carriage being perfectly level, the idea is to make it so the heated bed floats on the Y-carriage and allow for very fine adjustments. Compared to other mods that rely on springs which may deform over time due to drastic temperature changes and pressure, this mod leverages the properties of high-temp silicone to adjust the height more permanently. Due to the Y-carriage not having threaded holes for mounting the heated bed, the i3 nylock mod is not possible.
 
@@ -10,14 +10,14 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 ## Table of contents
 
-- [Prusa Mini Silicone Bed Levelling Mod](#prusa-mini-silicone-bed-leveling-mod)
+- [Prusa Mini Silicone Bed Leveling Mod](#prusa-mini-silicone-bed-leveling-mod)
 	- [Table of contents](#table-of-contents)
 	- [Benefits & drawbacks](#benefits--drawbacks)
 		- [Pros](#pros)
 		- [Cons](#cons)
 	- [Requirements](#requirements)
 	- [Installation/Setup Procedure](#installationsetup-procedure)
-	- [Levelling Procedure](#leveling-procedure)
+	- [Leveling Procedure](#leveling-procedure)
 	- [Notes](#notes)
 	- [Credit](#credit)
 
@@ -96,7 +96,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 <a href="/images/heatbed-center-screw.jpeg"><img src="/images/heatbed-center-screw.jpeg" width="50%"></a>
 
-## Levelling Procedure
+## Leveling Procedure
 1.  Power on the printer
 2.  Plug in USB-B from computer to the printer
 3.  Fire up Pronterface or OctoPrint and hit the connect to printer button
@@ -105,7 +105,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 	**Make sure you replace your steel sheet**
 
 	```
-    M104 S170 ; set extruder temp for bed levelling
+    M104 S170 ; set extruder temp for bed leveling
     M140 S60 ; set bed temp
     M109 R170 ; wait for extruder to reach temp
     M190 S60 ; wait for bed temp
@@ -114,11 +114,11 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 5.  Once the temperature has reached the target, input the GCode below.
     ```
     G28 ; home all without mesh bed level`
-    G29 ; mesh bed levelling
+    G29 ; mesh bed leveling
     G0 Z180 F720 ; raise Z
     ```
 
-6.  Now, wait for the mesh levelling to complete.
+6.  Now, wait for the mesh leveling to complete.
 	You should see output something like this:
 	```
 	0 -0.048 -0.040 -0.066 -0.035
