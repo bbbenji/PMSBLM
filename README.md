@@ -39,6 +39,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 	- [Amazon](https://www.amazon.com/gp/product/B003Z6VHE4/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) (B003Z6VHE4)
 	- Search for product code `AXA1052`, they show up on a number of hobbyist/RC sites.
 -   8 M3x16 flat head countersunk  **Torx**  screws (hex *might* not work)
+	- [Amazon](https://smile.amazon.com/gp/product/B01DEUBWMM/) (B01DEUBWMM)
 	- [PL source](https://inoxprostal.pl/din-965-tx-a2-wkrety-metryczne-nierdzewne-plasko-stozkowe-na-torx/3312-din-965-tx-a2-m3x16-mm-wkret-metr-plasko-stozkowy-torx.html)
 	- These are DIN 965 or DIN 7991, so all hex, cross, and torx versions of the screw of size M3x16mm should work.
 -   5.5mm (M3) combination wrench
