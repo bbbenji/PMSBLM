@@ -52,6 +52,9 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 -   Tube cutting jig
 	- [STL](https://github.com/PaulGameDev/PrusaMK3_Silicone_Leveling)
 -   Razorblade or sharp knife
+-   (Optional): Bed Tightening Jig to assist with adjustments
+	- [Dial+Pointer](https://www.printables.com/model/43629-prusa-mini-silicone-bed-leveling-mod-bed-tightenin)
+	- Remixes are available for different tip types
 
 ## Installation/Setup Procedure
 
@@ -133,6 +136,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
     It has been reported in Windows that using Ctrl+C to copy the text output from Pronterface does not always work, this may cause you to paste in the previous values. Instead, select the text then right-click and click Copy.
 
 8.  Follow the instructions for which screws to turn and how far. If using the 3D printed wrench, make sure you brace it against the nut before turning the screw as it has a small amount of play which may affect your accuracy. A metal wrench is the better option.
+	- The bed tightening jig is useful here for judging degree rotations.
 
 9.  Repeat steps 5-8 until the numbers from the results section on the website are no more than .02 difference between your biggest and smallest numbers. Ideally 0.
 
