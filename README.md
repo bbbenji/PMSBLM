@@ -117,7 +117,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 5.  Once the temperature has reached the target, input the GCode below.
     ```
-    G28 ; home all without mesh bed level`
+    G28 ; home all without mesh bed level
     G29 ; mesh bed leveling
     G0 Z180 F720 ; raise Z
     ```
