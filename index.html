@@ -24,7 +24,12 @@
 
           <h5 class="pt-3 fw-bold">Input</h5>
           <hr />
-          <div class="form-floating">
+          <select id="outputType" class="form-select">
+            <option value="prusaMini" selected>Prusa Mini/Mini+</option>
+            <option value="marlin7">Marlin (7x7) - Beta</option>
+            <option value="marlin13">Marlin (13x13) - WIP, DON'T USE</option>
+          </select>
+          <div class="form-floating mt-2">
             <textarea id="input" class="form-control font-monospace" placeholder="Output of G29">
 0 +0.048 -0.040 -0.066 -0.035
 1 -0.040 -0.030 -0.044 +0.010
