@@ -202,3 +202,35 @@ action.addEventListener('click', () => clean());
 // action.addEventListener('click', ()=>{
 // 	clean();
 // })
+
+popovers()
+// Popovers
+function popovers() {
+  // Set popover data attributes
+  document.querySelectorAll('.back_left').forEach(x=>x.setAttribute('title', 'Back Left'))
+  document.querySelectorAll('.back_left').forEach(x=>x.setAttribute('data-content', "<img src='../images/back-left.png' class='img-fluid'>"))
+  document.querySelectorAll('.back_center').forEach(x=>x.setAttribute('title', 'Back Center'))
+  document.querySelectorAll('.back_center').forEach(x=>x.setAttribute('data-content', "<img src='../images/back-center.png' class='img-fluid'>"))
+  document.querySelectorAll('.back_right').forEach(x=>x.setAttribute('title', 'Back Right'))
+  document.querySelectorAll('.back_right').forEach(x=>x.setAttribute('data-content', "<img src='../images/back-right.png' class='img-fluid'>"))
+  document.querySelectorAll('.center_left').forEach(x=>x.setAttribute('title', 'Center Left'))
+  document.querySelectorAll('.center_left').forEach(x=>x.setAttribute('data-content', "<img src='../images/center-left.png' class='img-fluid'>"))
+  document.querySelectorAll('.center_center').forEach(x=>x.setAttribute('title', 'Center Center'))
+  document.querySelectorAll('.center_center').forEach(x=>x.setAttribute('data-content', "<img src='../images/center-center.png' class='img-fluid'>"))
+  document.querySelectorAll('.center_right').forEach(x=>x.setAttribute('title', 'Center Right'))
+  document.querySelectorAll('.center_right').forEach(x=>x.setAttribute('data-content', "<img src='../images/center-right.png' class='img-fluid'>"))
+  document.querySelectorAll('.front_left').forEach(x=>x.setAttribute('title', 'Front Left'))
+  document.querySelectorAll('.front_left').forEach(x=>x.setAttribute('data-content', "<img src='../images/front-left.png' class='img-fluid'>"))
+  document.querySelectorAll('.front_center').forEach(x=>x.setAttribute('title', 'Front Center'))
+  document.querySelectorAll('.front_center').forEach(x=>x.setAttribute('data-content', "<img src='../images/front-center.png' class='img-fluid'>"))
+  document.querySelectorAll('.front_right').forEach(x=>x.setAttribute('title', 'Front Right'))
+  document.querySelectorAll('.front_right').forEach(x=>x.setAttribute('data-content', "<img src='../images/front-right.png' class='img-fluid'>"))
+  // Initiate popovers
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'))
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl, {
+      html: true,
+      trigger: 'hover'
+    })
+  })
+}
