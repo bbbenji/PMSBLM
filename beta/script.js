@@ -6,6 +6,18 @@ var source = document.getElementById('source');
 var target = document.getElementById('target');
 var action = document.getElementById('action');
 
+action.addEventListener('click', ()=>{
+	var raw = clean();
+  var rawFlat = raw.flat();
+  rawFlat = rawFlat.map(Number);
+
+  plot(raw);
+  convert(raw);
+  minMax(rawFlat);
+  maxDiff(rawFlat);
+  avgDev(rawFlat);
+})
+
 function clean() {
   var raw = source.value;
   raw = raw.replace(/\w+:\s*/g, '').trim(); // Remove 'Recv: ' if exists & trim whitespace
@@ -23,14 +35,7 @@ function clean() {
     });
   }
 
-  var rawFlat = raw.flat();
-  rawFlat = rawFlat.map(Number);
-
-  plot(raw);
-  convert(raw);
-  minMax(rawFlat);
-  maxDiff(rawFlat);
-  avgDev(rawFlat);
+  return raw;
 }
 
 // import Plotly from 'plotly.js-dist-min'
@@ -65,8 +70,6 @@ function plot(raw) {
 }
 
 function convert(raw){
-  const arraySum = array => array.flat(Infinity).map(Number).reduce((acc,curr)=>acc+curr, 0);
-
   var midRow = arrayMid(raw); // middle rows
   var midRowValueAvg;
   var midRowFirstValueAvg;
@@ -86,26 +89,24 @@ function convert(raw){
     var lastRowMidValue = arrayMid(raw[raw.length - 1]); // middle values of last row
     lastRowMidValueAvg = arraySum(lastRowMidValue) / 2; // average of middle values of last row
   } else {
-    midRowValueAvg = arrayMid(midRow[0]);
-    midRowFirstValueAvg = [midRow[0][0]];
-    midRowLastValueAvg = [midRow[0][midRow[0].length - 1]];
-    firstRowMidValueAvg = arrayMid(raw[0]);
-    lastRowMidValueAvg = arrayMid(raw[raw.length - 1]);
+    midRowValueAvg = arrayMid(midRow[0]); // middle value of middle row
+    midRowFirstValueAvg = [midRow[0][0]]; // first value of middle row
+    midRowLastValueAvg = [midRow[0][midRow[0].length - 1]]; // last value of middle row
+    firstRowMidValueAvg = arrayMid(raw[0]); // middle value of first row
+    lastRowMidValueAvg = arrayMid(raw[raw.length - 1]); // middle value of last row
   }
 
   var center = midRowValueAvg;
-
   var back_left = raw[0][0] - center;
   var back_center = firstRowMidValueAvg - center;
   var back_right = raw[0][raw.length - 1] - center;
-  
   var center_left = midRowFirstValueAvg - center;
   var center_right = midRowLastValueAvg - center;
-  
   var front_left = raw[raw.length - 1][0] - center;
   var front_center = lastRowMidValueAvg - center;
   var front_right = raw[raw.length - 1][raw.length - 1] - center;
 
+  // Evaluate and inject values into DOM
   const array = ['back_left', 'back_center', 'back_right', 'center_left', 'center_right', 'front_left', 'front_center', 'front_right']
   array.forEach(function (item) {
     document.querySelector('#raw .' + item).innerHTML = relative(eval(item));
@@ -113,53 +114,71 @@ function convert(raw){
     document.querySelector('#fractions .' + item).innerHTML = fractions(eval(item));
   });
 
-}
-
-function relative(position) {
-  var pos = position.toFixed(2);
-  if (pos == 0) {
-    return '±0.00 mm <span class="mdi mdi-check text-success"></span>';
-  } else {
-    pos = ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
-    return pos;
+  // Calculate the sum of an array
+  function arraySum(array) {
+    return array.flat(Infinity).map(Number).reduce((acc,curr)=>acc+curr, 0);
   }
-}
 
-function degrees(position) {
-  var deg = Math.round((position/screw_pitch*360));
-  if (deg == 0) {
-    return deg + '° <span class="mdi mdi-check text-success"></span>';
-  } else {
-    deg = Math.abs(deg) + '°' + ' ' + ((deg > 0) ? cw : ccw);
-    return deg;
+  // Get the middle element/s of even array
+  function arrayMid(raw, ind = 0) {
+    if(raw[ind]){
+        return arrayMid(raw, ++ind);
+    };
+    return ind % 2 !== 0 ? [raw[(ind-1) / 2]] : [raw[(ind/2)-1],
+    raw[ind/2]];
+  };
+
+  // Calculate the raw value relative to the center
+  function relative(position) {
+    var pos = position.toFixed(2);
+    if (pos == 0) {
+      return '±0.00 mm <span class="mdi mdi-check text-success"></span>';
+    } else {
+      pos = ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
+      return pos;
+    }
   }
-}
-
-// https://stackoverflow.com/a/23575406
-let gcd = function(a, b) {
-  if (b < 0.0000001) return a; // Since there is a limited precision we need to limit the value.
-  return gcd(b, Math.floor(a % b)); // Discard any fractions due to limitations in precision.
-};
-function fractions(position) {
-  var abs = Math.abs(position/screw_pitch).toFixed(1);
-  let len = abs.toString().length - 2;
-  let denominator = Math.pow(10, len);
-  let numerator = abs * denominator;
-  let divisor = gcd(numerator, denominator);
-  numerator /= divisor;
-  denominator /= divisor;
   
-  var rat = Math.floor(numerator) + '/' + Math.floor(denominator);
-  rat = ((rat == '0/1') ? 0 : rat);
-  if (rat == 0) {
-    return rat + ' <span class="mdi mdi-check text-success"></span>';
-  } else {
-    rat = rat + ' ' + ((position > 0) ? cw : ccw);
-    return rat;
+  // Calculate the degree value relative to the center
+  function degrees(position) {
+    var deg = Math.round((position/screw_pitch*360));
+    if (deg == 0) {
+      return deg + '° <span class="mdi mdi-check text-success"></span>';
+    } else {
+      deg = Math.abs(deg) + '°' + ' ' + ((deg > 0) ? cw : ccw);
+      return deg;
+    }
   }
+  
+  // Calculate the fraction value relative to the center
+  function fractions(position) {
+    // https://stackoverflow.com/a/23575406
+    let gcd = function(a, b) {
+      if (b < 0.0000001) return a; // Since there is a limited precision we need to limit the value.
+      return gcd(b, Math.floor(a % b)); // Discard any fractions due to limitations in precision.
+    };
+  
+    var abs = Math.abs(position/screw_pitch).toFixed(1);
+    let len = abs.toString().length - 2;
+    let denominator = Math.pow(10, len);
+    let numerator = abs * denominator;
+    let divisor = gcd(numerator, denominator);
+    numerator /= divisor;
+    denominator /= divisor;
+    
+    var rat = Math.floor(numerator) + '/' + Math.floor(denominator);
+    rat = ((rat == '0/1') ? 0 : rat);
+    if (rat == 0) {
+      return rat + ' <span class="mdi mdi-check text-success"></span>';
+    } else {
+      rat = rat + ' ' + ((position > 0) ? cw : ccw);
+      return rat;
+    }
+  }
+
 }
 
-// Calculate maximum and mimum
+// Calculate maximum and mimum values
 function minMax(rawFlat) {
   let min = Math.min(...rawFlat);
   let max = Math.max(...rawFlat);
@@ -169,41 +188,52 @@ function minMax(rawFlat) {
   document.querySelector('#stats .max').innerHTML = max;
 }
 
-// Calculate maximum devication
+// Calculate the maximum difference
 function maxDiff(rawFlat) {
   let diff = Math.max(...rawFlat) - Math.min(...rawFlat);
   document.querySelector('#stats .max_diff').innerHTML = diff.toFixed(3);
+  // If the maximum difference is below threshold, initiate fireworks
   if (diff <= 0.02) {
-    // fireworks();
+    fireworks();
   }
 }
 
-// Calculate average devication
+// Calculate the average devication
 function avgDev(rawFlat) {
   let avg = rawFlat.reduce((a, b) => a + b) / rawFlat.length;
   avg = ((avg >= 0) ? '+' : '') + avg.toFixed(3);
   document.querySelector('#stats .avg_dev').innerHTML = avg;
 }
 
-// Get middle elements of even array
-function arrayMid(raw, ind = 0) {
-    if(raw[ind]){
-        return arrayMid(raw, ++ind);
-    };
-    return ind % 2 !== 0 ? [raw[(ind-1) / 2]] : [raw[(ind/2)-1],
-    raw[ind/2]];
-  };
-
+// Hide any elements in the DOM with a class of .hide
 function hide() {
   document.querySelectorAll('.hide').forEach(x=>x.classList.add('hidden'))
 }
 
-action.addEventListener('click', () => clean());
-// action.addEventListener('click', ()=>{
-// 	clean();
-// })
+// Initiate fireworks
+function fireworks() {
+  var duration = 5 * 1000;
+  var animationEnd = Date.now() + duration;
+  var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+  
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+  
+  var interval = setInterval(function() {
+    var timeLeft = animationEnd - Date.now();
+  
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+  
+    var particleCount = 50 * (timeLeft / duration);
+    // since particles fall down, start a bit higher than random
+    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+  }, 250);
+}
 
-popovers()
 // Popovers
 function popovers() {
   // Set popover data attributes
@@ -234,3 +264,4 @@ function popovers() {
     })
   })
 }
+popovers()
