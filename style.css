@@ -38,18 +38,18 @@ textarea {
   padding: 0 0.5rem;
 }
 
-.back_left { grid-area: back_left; text-align: left; }
-.back_center { grid-area: back_center; text-align: center; }
-.back_right { grid-area: back_right; text-align: right; }
-.center_left { grid-area: center_left; text-align: left; }
-.center_center { grid-area: center_center; text-align: center; }
-.center_right { grid-area: center_right; text-align: right; }
-.front_left { grid-area: front_left; text-align: left; }
-.front_center { grid-area: front_center; text-align: center; }
-.front_right { grid-area: front_right; text-align: right; }
+.back_left, .backLeft { grid-area: back_left; text-align: left; }
+.back_center, .backCenter { grid-area: back_center; text-align: center; }
+.back_right, .backRight { grid-area: back_right; text-align: right; }
+.center_left, .centerLeft { grid-area: center_left; text-align: left; }
+.center_center, .centerCenter { grid-area: center_center; text-align: center; }
+.center_right, .centerRight { grid-area: center_right; text-align: right; }
+.front_left, .frontLeft { grid-area: front_left; text-align: left; }
+.front_center, .frontCenter { grid-area: front_center; text-align: center; }
+.front_right, .frontRight { grid-area: front_right; text-align: right; }
 
-.back_left:before, .back_right:before,
-.front_left:before, .front_right:before {
+.back_left:before, .back_right:before, .backLeft:before, .backRight:before,
+.front_left:before, .front_right:before, .frontLeft:before, .frontRight:before {
   position: absolute;
   width: 100%;
   font-size: 0.75rem;
@@ -57,22 +57,22 @@ textarea {
   pointer-events: none;
 }
 
-.back_left:before {
+.back_left:before, .backLeft:before {
   content: "Back Left";
   top: 0;
   left: 0;
 }
-.back_right:before {
+.back_right:before, .backRight:before {
   content: "Back Right";
   top: 0;
   right: 0;
 }
-.front_left:before {
+.front_left:before, .frontLeft:before {
   content: "Front Left";
   bottom: 0;
   left: 0;
 }
-.front_right:before {
+.front_right:before, .frontRight:before {
   content: "Front Right";
   bottom: 0;
   right: 0;
