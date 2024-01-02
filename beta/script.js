@@ -11,11 +11,12 @@ action.addEventListener('click', () => {
   let rawFlat = raw.flat()
   rawFlat = rawFlat.map(Number)
 
-  plot(raw)
   convert(raw)
   minMax(rawFlat)
   maxDiff(rawFlat)
   avgDev(rawFlat)
+
+  plot(raw)
 })
 
 function clean () {
@@ -44,6 +45,12 @@ function clean () {
 
 // import Plotly from 'plotly.js-dist-min'
 function plot (raw) {
+
+  const flipOutput = document.getElementById('flipOutput')
+  if (flipOutput.checked) {
+    raw.reverse()
+  }
+  
   hide()
   const data = [{
     z: raw,
@@ -62,12 +69,11 @@ function plot (raw) {
       zaxis: {
         autorange: false,
         range: [-1, 1]
+      },
+      camera: {
+        eye: {x: 0, y: -2.5, z: 1}, // Adjust x, y, z values to change the camera view
+        up: {x: 0, y: 0, z: 1} // This ensures that the Z-axis is pointing upwards
       }
-      // camera: {
-      //   eye: {
-      //   x: 0, y: -1.25, z: 1.25
-      //   }
-      // }
     }
   }
   Plotly.newPlot(target, data, layout, { responsive: true })
