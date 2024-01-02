@@ -21,12 +21,15 @@ action.addEventListener('click', () => {
 function clean () {
   let raw = source.value
   raw = raw.replace(/\w+:\s*/g, '').trim() // Remove 'Recv: ' if exists & trim whitespace
+  raw = raw.replace(/\|/g, '').trim() // Remove '|' if exists & trim whitespace
+  raw = raw.replace(/^[ \t]*\r?\n/gm, '').trim() // Remove blank lines & trim whitespace
   raw = raw.split('\n')
-  if (raw[0].trim().match(/^0\s+[\s\d]+\d$/)) raw.shift()
+  if (raw[raw.length - 1].trim().match(/^0\s+[\s\d]+\d$/)) raw.pop() // Remove trailing column numbers
+  if (raw[0].trim().match(/^0\s+[\s\d]+\d$/)) raw.shift() // Remove leading column numbers
   for (const i in raw) {
     raw[i] = raw[i].trim().replace(/< \d+:\d+:\d+(\s+(AM|PM))?:/g, '').replace(/[\[\]]/g, ' ').replace(/\s+/g, '\t').split('\t')
-    if (+raw[i][0] === (raw.length - i - 1)) raw[i].shift() // Remove leading ... 3 2 1 0
-    if (raw[i][0] === i) raw[i].shift() // Remove leading 0 1 2 3 ...
+    if (+raw[i][0] === (raw.length - i - 1)) raw[i].shift() // Remove row number ... 3 2 1 0
+    if (raw[i][0] === i) raw[i].shift() // Remove row number 0 1 2 3 ...
   }
 
   const invertOutput = document.getElementById('invertOutput')
