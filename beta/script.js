@@ -25,7 +25,8 @@ function clean () {
   if (raw[0].trim().match(/^0\s+[\s\d]+\d$/)) raw.shift()
   for (const i in raw) {
     raw[i] = raw[i].trim().replace(/< \d+:\d+:\d+(\s+(AM|PM))?:/g, '').replace(/[\[\]]/g, ' ').replace(/\s+/g, '\t').split('\t')
-    if (raw[i][0] === i) raw[i].shift()
+    if (+raw[i][0] === (raw.length - i - 1)) raw[i].shift() // Remove leading ... 3 2 1 0
+    if (raw[i][0] === i) raw[i].shift() // Remove leading 0 1 2 3 ...
   }
 
   const invertOutput = document.getElementById('invertOutput')
