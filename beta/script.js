@@ -1,61 +1,91 @@
-const screwPitch = 0.5
-const cw = 'CW&nbsp;&nbsp;<span class="mdi mdi-rotate-right text-danger"></span>'
-const ccw = 'CCW <span class="mdi mdi-rotate-left text-primary"></span>'
+// Constants for screw pitch and rotation directions
+const screwPitch = 0.5;
+const cw =
+  'CW&nbsp;&nbsp;<span class="mdi mdi-rotate-right text-danger"></span>';
+const ccw = 'CCW <span class="mdi mdi-rotate-left text-primary"></span>';
 
-const source = document.getElementById('source')
-const target = document.getElementById('target')
-const action = document.getElementById('action')
+// DOM elements
+const source = document.getElementById("source");
+const target = document.getElementById("target");
+const action = document.getElementById("action");
 
-action.addEventListener('click', () => {
-  const raw = clean()
-  let rawFlat = raw.flat()
-  rawFlat = rawFlat.map(Number)
+// Event listener for the 'action' button click. It processes the data and updates the UI accordingly.
+action.addEventListener("click", () => {
+  // Clean and process the raw data
+  const raw = clean();
+  let rawFlat = raw.flat().map(Number); // Flatten and convert all elements to numbers
 
-  convert(raw)
-  minMax(rawFlat)
-  maxDiff(rawFlat)
-  avgDev(rawFlat)
+  // Perform various data conversions and calculations
+  convert(raw); // Convert the raw data
+  minMax(rawFlat); // Calculate and display the minimum and maximum values
+  maxDiff(rawFlat); // Calculate and display the maximum difference
+  avgDev(rawFlat); // Calculate and display the average deviation
 
-  plot(raw)
-})
+  // Plot the processed data
+  plot(raw);
+});
 
-function clean () {
+// Cleans and processes raw string data from a source input.
+function clean() {
+  // Extract and clean the raw input data
   let raw = source.value
-  raw = raw.replace(/\w+:\s*/g, '').trim() // Remove 'Recv: ' if exists & trim whitespace
-  raw = raw.replace(/\|/g, '').trim() // Remove '|' if exists & trim whitespace
-  raw = raw.replace(/^[ \t]*\r?\n/gm, '').trim() // Remove blank lines & trim whitespace
-  raw = raw.split('\n')
-  if (raw[raw.length - 1].trim().match(/^0\s+[\s\d]+\d$/)) raw.pop() // Remove trailing column numbers
-  if (raw[0].trim().match(/^0\s+[\s\d]+\d$/)) raw.shift() // Remove leading column numbers
-  for (const i in raw) {
-    raw[i] = raw[i].trim().replace(/< \d+:\d+:\d+(\s+(AM|PM))?:/g, '').replace(/[\[\]]/g, ' ').replace(/\s+/g, '\t').split('\t')
-    if (+raw[i][0] === (raw.length - i - 1)) raw[i].shift() // Remove row number ... 3 2 1 0
-    if (raw[i][0] === i) raw[i].shift() // Remove row number 0 1 2 3 ...
+    .replace(/\w+:\s*/g, "") // Remove 'Recv: ' or similar prefixes
+    .replace(/\|/g, "") // Remove '|'
+    .replace(/^[ \t]*\r?\n/gm, "") // Remove blank lines
+    .trim()
+    .split("\n"); // Split into lines
+
+  // Remove trailing and leading column numbers
+  if (raw[raw.length - 1].trim().match(/^0\s+[\s\d]+\d$/)) {
+    raw.pop();
+  }
+  if (raw[0].trim().match(/^0\s+[\s\d]+\d$/)) {
+    raw.shift();
   }
 
-  const invertOutput = document.getElementById('invertOutput')
+  // Process each line
+  raw = raw.map((line, index) => {
+    let processedLine = line
+      .trim()
+      .replace(/< \d+:\d+:\d+(\s+(AM|PM))?:/g, "") // Remove timestamps
+      .replace(/[\[\]]/g, " ") // Replace brackets with spaces
+      .replace(/\s+/g, "\t") // Normalize whitespace to tabs
+      .split("\t"); // Split by tabs
+
+    // Remove row numbers if they match a pattern
+    if (
+      +processedLine[0] === raw.length - index - 1 ||
+      processedLine[0] === String(index)
+    ) {
+      processedLine.shift();
+    }
+
+    return processedLine;
+  });
+
+  // Optionally invert the output
+  const invertOutput = document.getElementById("invertOutput");
   if (invertOutput.checked) {
-    raw.reverse().forEach(function (item) {
-      item.reverse()
-    })
+    raw = raw.map((item) => item.reverse()).reverse();
   }
 
-  return raw
+  return raw;
 }
 
 // import Plotly from 'plotly.js-dist-min'
-function plot (raw) {
-
-  const flipOutput = document.getElementById('flipOutput')
+function plot(raw) {
+  const flipOutput = document.getElementById("flipOutput");
   if (flipOutput.checked) {
-    raw.reverse()
+    raw.reverse();
   }
-  
-  hide()
-  const data = [{
-    z: raw,
-    type: 'surface'
-  }]
+
+  hide();
+  const data = [
+    {
+      z: raw,
+      type: "surface",
+    },
+  ];
   const layout = {
     // title: 'Bed Leveling Mesh',
     autosize: true,
@@ -63,216 +93,315 @@ function plot (raw) {
       l: 0,
       r: 0,
       b: 0,
-      t: 0
+      t: 0,
     },
     scene: {
       zaxis: {
         autorange: false,
-        range: [-1, 1]
+        range: [-1, 1],
       },
       camera: {
-        eye: {x: 0, y: -2.5, z: 1}, // Adjust x, y, z values to change the camera view
-        up: {x: 0, y: 0, z: 1} // This ensures that the Z-axis is pointing upwards
-      }
-    }
-  }
-  Plotly.newPlot(target, data, layout, { responsive: true })
+        eye: { x: 0, y: -2.5, z: 1 }, // Adjust x, y, z values to change the camera view
+        up: { x: 0, y: 0, z: 1 }, // This ensures that the Z-axis is pointing upwards
+      },
+    },
+  };
+  Plotly.newPlot(target, data, layout, { responsive: true });
 }
 
-function convert (raw) {
-  const midRow = arrayMid(raw) // middle rows
-  let midRowValueAvg
-  let midRowFirstValueAvg
-  let midRowLastValueAvg
-  let firstRowMidValueAvg
-  let lastRowMidValueAvg
+function convert(raw) {
+  // Extract the middle row(s) from the array
+  const midRow = arrayMid(raw);
+  let midRowValueAvg,
+    midRowFirstValueAvg,
+    midRowLastValueAvg,
+    firstRowMidValueAvg,
+    lastRowMidValueAvg;
+
+  // Calculate averages based on whether the number of rows is even or odd
   if (raw.length % 2 === 0) {
-    // Get averages of middle data points
-    const midRowValue = [arrayMid(midRow[0]), arrayMid(midRow[1])] // middle values of middle rows
-    midRowValueAvg = arraySum(midRowValue) / 4 // average of middle values of middle rows
-    const midRowFirstValue = [midRow[0][0], midRow[1][0]] // first values of middle rows
-    midRowFirstValueAvg = arraySum(midRowFirstValue) / 2 // average of first values of middle rows
-    const midRowLastValue = [midRow[0][midRow[0].length - 1], midRow[1][midRow[1].length - 1]] // last values of middle rows
-    midRowLastValueAvg = arraySum(midRowLastValue) / 2 // average of last values of middle rows
-    const firstRowMidValue = arrayMid(raw[0]) // middle values of first row
-    firstRowMidValueAvg = arraySum(firstRowMidValue) / 2 // average of middle values of first row
-    const lastRowMidValue = arrayMid(raw[raw.length - 1]) // middle values of last row
-    lastRowMidValueAvg = arraySum(lastRowMidValue) / 2 // average of middle values of last row
+    // Calculate averages for even number of rows
+    const midRowValue = [...arrayMid(midRow[0]), ...arrayMid(midRow[1])]; // Middle values of middle rows
+    midRowValueAvg = arraySum(midRowValue) / midRowValue.length; // Average of middle values of middle rows
+
+    const midRowFirstValue = [midRow[0][0], midRow[1][0]]; // First values of middle rows
+    midRowFirstValueAvg = arraySum(midRowFirstValue) / midRowFirstValue.length; // Average of first values of middle rows
+
+    const midRowLastValue = [
+      midRow[0][midRow[0].length - 1],
+      midRow[1][midRow[1].length - 1],
+    ]; // Last values of middle rows
+    midRowLastValueAvg = arraySum(midRowLastValue) / midRowLastValue.length; // Average of last values of middle rows
+
+    firstRowMidValueAvg = arraySum(arrayMid(raw[0])) / 2; // Average of middle values of first row
+    lastRowMidValueAvg = arraySum(arrayMid(raw[raw.length - 1])) / 2; // Average of middle values of last row
   } else {
-    midRowValueAvg = arrayMid(midRow[0]) // middle value of middle row
-    midRowFirstValueAvg = [midRow[0][0]] // first value of middle row
-    midRowLastValueAvg = [midRow[0][midRow[0].length - 1]] // last value of middle row
-    firstRowMidValueAvg = arrayMid(raw[0]) // middle value of first row
-    lastRowMidValueAvg = arrayMid(raw[raw.length - 1]) // middle value of last row
+    // Calculate averages for odd number of rows
+    midRowValueAvg = arrayMid(midRow[0])[0]; // Middle value of middle row
+    midRowFirstValueAvg = midRow[0][0]; // First value of middle row
+    midRowLastValueAvg = midRow[0][midRow[0].length - 1]; // Last value of middle row
+    firstRowMidValueAvg = arrayMid(raw[0])[0]; // Middle value of first row
+    lastRowMidValueAvg = arrayMid(raw[raw.length - 1])[0]; // Middle value of last row
   }
 
-  const center = midRowValueAvg
-  const backLeft = raw[0][0] - center
-  const backCenter = firstRowMidValueAvg - center
-  const backRight = raw[0][raw.length - 1] - center
-  const centerLeft = midRowFirstValueAvg - center
-  const centerRight = midRowLastValueAvg - center
-  const frontLeft = raw[raw.length - 1][0] - center
-  const frontCenter = lastRowMidValueAvg - center
-  const frontRight = raw[raw.length - 1][raw.length - 1] - center
+  const center = midRowValueAvg;
+  const backLeft = raw[0][0] - center;
+  const backCenter = firstRowMidValueAvg - center;
+  const backRight = raw[0][raw.length - 1] - center;
+  const centerLeft = midRowFirstValueAvg - center;
+  const centerRight = midRowLastValueAvg - center;
+  const frontLeft = raw[raw.length - 1][0] - center;
+  const frontCenter = lastRowMidValueAvg - center;
+  const frontRight = raw[raw.length - 1][raw.length - 1] - center;
 
   // Evaluate and inject values into DOM
-  const array = ['backLeft', 'backCenter', 'backRight', 'centerLeft', 'centerRight', 'frontLeft', 'frontCenter', 'frontRight']
+  const array = [
+    "backLeft",
+    "backCenter",
+    "backRight",
+    "centerLeft",
+    "centerRight",
+    "frontLeft",
+    "frontCenter",
+    "frontRight",
+  ];
   array.forEach(function (item) {
-    document.querySelector('#raw .' + item).innerHTML = relative(eval(item))
-    document.querySelector('#degrees .' + item).innerHTML = degrees(eval(item))
-    document.querySelector('#fractions .' + item).innerHTML = fractions(eval(item))
-  })
+    document.querySelector("#raw ." + item).innerHTML = relative(eval(item));
+    document.querySelector("#degrees ." + item).innerHTML = degrees(eval(item));
+    document.querySelector("#fractions ." + item).innerHTML = fractions(
+      eval(item)
+    );
+  });
 
   // Calculate the sum of an array
-  function arraySum (array) {
-    return array.flat(Infinity).map(Number).reduce((acc, curr) => acc + curr, 0)
+  function arraySum(array) {
+    return array
+      .flat(Infinity)
+      .map(Number)
+      .reduce((acc, curr) => acc + curr, 0);
   }
 
-  // Get the middle element/s of even array
-  function arrayMid (raw, ind = 0) {
-    if (raw[ind]) {
-      return arrayMid(raw, ++ind)
-    };
-    return ind % 2 !== 0
-      ? [raw[(ind - 1) / 2]]
-      : [raw[(ind / 2) - 1],
-          raw[ind / 2]]
-  };
-
-  // Calculate the raw value relative to the center
-  function relative (position) {
-    let pos = position.toFixed(2)
-    if (pos === 0) {
-      return '±0.00 mm <span class="mdi mdi-check text-success"></span>'
-    } else {
-      pos = ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
-      return pos
+  // Recursively finds the middle element(s) of an array.
+  function arrayMid(raw, ind = 0) {
+    if (raw[ind] === undefined) {
+      return ind % 2 !== 0
+        ? [raw[(ind - 1) / 2]]
+        : [raw[ind / 2 - 1], raw[ind / 2]];
     }
+    return arrayMid(raw, ++ind);
   }
 
-  // Calculate the degree value relative to the center
-  function degrees (position) {
-    let deg = Math.round((position / screwPitch * 360))
+  // Calculates the position relative to the center and formats it for display.
+  function relative(position) {
+    const pos = position.toFixed(2);
+    if (pos === "0.00") {
+      return '±0.00 mm <span class="mdi mdi-check text-success"></span>';
+    }
+    return `${
+      pos >= 0 ? "+" : ""
+    }${pos} mm <span class="mdi mdi-close text-danger"></span>`;
+  }
+
+  //Converts a position to degrees relative to the screw pitch and formats it for display.
+  function degrees(position) {
+    let deg = Math.round((position / screwPitch) * 360);
     if (deg === 0) {
-      return deg + '° <span class="mdi mdi-check text-success"></span>'
-    } else {
-      deg = Math.abs(deg) + '°' + ' ' + ((deg > 0) ? cw : ccw)
-      return deg
+      return '0° <span class="mdi mdi-check text-success"></span>';
     }
+    return `${Math.abs(deg)}° ${deg > 0 ? cw : ccw}`;
   }
 
-  // Calculate the fraction value relative to the center
-  function fractions (position) {
-    // https://stackoverflow.com/a/23575406
-    const gcd = function (a, b) {
-      if (b < 0.0000001) return a // Since there is a limited precision we need to limit the value.
-      return gcd(b, Math.floor(a % b)) // Discard any fractions due to limitations in precision.
-    }
+  // Calculates the fractional representation of a position relative to the center.
+  function fractions(position) {
+    // Function to calculate the greatest common divisor
+    const gcd = (a, b) => {
+      if (b < 0.0000001) return a; // Limiting value due to precision limitations
+      return gcd(b, Math.floor(a % b)); // Using recursion for gcd calculation
+    };
 
-    const abs = Math.abs(position / screwPitch).toFixed(1)
-    const len = abs.toString().length - 2
-    let denominator = Math.pow(10, len)
-    let numerator = abs * denominator
-    const divisor = gcd(numerator, denominator)
-    numerator /= divisor
-    denominator /= divisor
+    // Calculate the absolute value of the position divided by the screw pitch and fix to 1 decimal place
+    const abs = Math.abs(position / screwPitch).toFixed(1);
 
-    let rat = Math.floor(numerator) + '/' + Math.floor(denominator)
-    rat = ((rat === '0/1') ? 0 : rat)
-    if (rat === 0) {
-      return rat + ' <span class="mdi mdi-check text-success"></span>'
+    // Calculate the length of the decimal part
+    const len = abs.toString().length - 2;
+
+    // Determine the denominator as a power of 10 based on the length of the decimal part
+    let denominator = Math.pow(10, len);
+    let numerator = abs * denominator;
+
+    // Simplify the fraction by dividing both numerator and denominator by their gcd
+    const divisor = gcd(numerator, denominator);
+    numerator /= divisor;
+    denominator /= divisor;
+
+    // Construct the fraction string
+    let fraction = Math.floor(numerator) + "/" + Math.floor(denominator);
+
+    // If the fraction is '0/1', treat it as 0 and append a checkmark icon
+    if (fraction === "0/1") {
+      return '0 <span class="mdi mdi-check text-success"></span>';
     } else {
-      rat = rat + ' ' + ((position > 0) ? cw : ccw)
-      return rat
+      // Append clockwise or counterclockwise symbol based on position
+      fraction += " " + (position > 0 ? cw : ccw);
+      return fraction;
     }
   }
 }
 
-// Calculate maximum and mimum values
-function minMax (rawFlat) {
-  let min = Math.min(...rawFlat)
-  let max = Math.max(...rawFlat)
-  min = ((min >= 0) ? '+' : '') + min
-  max = ((max >= 0) ? '+' : '') + max
-  document.querySelector('#stats .min').innerHTML = min
-  document.querySelector('#stats .max').innerHTML = max
+// Updates minimum and maximum values in the DOM based on the rawFlat array
+function minMax(rawFlat) {
+  // Find minimum and maximum values in the array
+  let min = Math.min(...rawFlat);
+  let max = Math.max(...rawFlat);
+
+  // Prefix with '+' if the values are non-negative
+  min = (min >= 0 ? "+" : "") + min;
+  max = (max >= 0 ? "+" : "") + max;
+
+  // Update the DOM elements with the calculated min and max values
+  document.querySelector("#stats .min").textContent = min;
+  document.querySelector("#stats .max").textContent = max;
 }
 
-// Calculate the maximum difference
-function maxDiff (rawFlat) {
-  const diff = Math.max(...rawFlat) - Math.min(...rawFlat)
-  document.querySelector('#stats .max_diff').innerHTML = diff.toFixed(3)
-  // If the maximum difference is below threshold, initiate fireworks
+// Updates the maximum difference in the DOM and triggers fireworks if the condition is met
+function maxDiff(rawFlat) {
+  // Calculate the difference between the maximum and minimum values
+  const diff = Math.max(...rawFlat) - Math.min(...rawFlat);
+
+  // Update the DOM element with the calculated difference
+  document.querySelector("#stats .max_diff").textContent = diff.toFixed(3);
+
+  // Trigger fireworks if the difference is below or equal to the threshold (0.02)
   if (diff <= 0.02) {
-    fireworks()
+    fireworks();
   }
 }
 
-// Calculate the average devication
-function avgDev (rawFlat) {
-  let avg = rawFlat.reduce((a, b) => a + b) / rawFlat.length
-  avg = ((avg >= 0) ? '+' : '') + avg.toFixed(3)
-  document.querySelector('#stats .avg_dev').innerHTML = avg
+// Updates the average deviation in the DOM based on the rawFlat array
+function avgDev(rawFlat) {
+  // Calculate the average value
+  let avg = rawFlat.reduce((a, b) => a + b, 0) / rawFlat.length;
+
+  // Prefix with '+' if the average is non-negative and format to 3 decimal places
+  avg = (avg >= 0 ? "+" : "") + avg.toFixed(3);
+
+  // Update the DOM element with the calculated average deviation
+  document.querySelector("#stats .avg_dev").textContent = avg;
 }
 
-// Hide any elements in the DOM with a class of .hide
-function hide () {
-  document.querySelectorAll('.hide').forEach(x => x.classList.add('hidden'))
+// Hides all elements with the class 'hide' by adding 'hidden' class
+function hide() {
+  document
+    .querySelectorAll(".hide")
+    .forEach((element) => element.classList.add("hidden"));
 }
 
 // Initiate fireworks
-function fireworks () {
-  const duration = 5 * 1000
-  const animationEnd = Date.now() + duration
-  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+function fireworks() {
+  const duration = 5000; // Duration of the fireworks in milliseconds (5 seconds)
+  const animationEnd = Date.now() + duration; // Timestamp for when the animation should end
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }; // Default confetti properties
 
-  function randomInRange (min, max) {
-    return Math.random() * (max - min) + min
+  // Returns a random number within a given range
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
   }
 
-  const interval = setInterval(function () {
-    const timeLeft = animationEnd - Date.now()
+  // Launches confetti at intervals
+  const interval = setInterval(() => {
+    const timeLeft = animationEnd - Date.now();
 
     if (timeLeft <= 0) {
-      return clearInterval(interval)
+      return clearInterval(interval); // Stop the interval when the time is up
     }
 
-    const particleCount = 50 * (timeLeft / duration)
-    // since particles fall down, start a bit higher than random
-    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }))
-    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }))
-  }, 250)
+    // Adjust the particle count based on the time left
+    const particleCount = 50 * (timeLeft / duration);
+
+    // Create two confetti blasts from different sides
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      })
+    );
+    confetti(
+      Object.assign({}, defaults, {
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      })
+    );
+  }, 250); // Interval set at 250 milliseconds
 }
 
 // Popovers
-function popovers () {
-  // Set popover data attributes
-  document.querySelectorAll('.backLeft').forEach(x => x.setAttribute('title', 'Back Left'))
-  document.querySelectorAll('.backLeft').forEach(x => x.setAttribute('data-content', "<img src='../images/back-left.png' class='img-fluid'>"))
-  document.querySelectorAll('.backCenter').forEach(x => x.setAttribute('title', 'Back Center'))
-  document.querySelectorAll('.backCenter').forEach(x => x.setAttribute('data-content', "<img src='../images/back-center.png' class='img-fluid'>"))
-  document.querySelectorAll('.backRight').forEach(x => x.setAttribute('title', 'Back Right'))
-  document.querySelectorAll('.backRight').forEach(x => x.setAttribute('data-content', "<img src='../images/back-right.png' class='img-fluid'>"))
-  document.querySelectorAll('.centerLeft').forEach(x => x.setAttribute('title', 'Center Left'))
-  document.querySelectorAll('.centerLeft').forEach(x => x.setAttribute('data-content', "<img src='../images/center-left.png' class='img-fluid'>"))
-  document.querySelectorAll('.center_center').forEach(x => x.setAttribute('title', 'Center Center'))
-  document.querySelectorAll('.center_center').forEach(x => x.setAttribute('data-content', "<img src='../images/center-center.png' class='img-fluid'>"))
-  document.querySelectorAll('.centerRight').forEach(x => x.setAttribute('title', 'Center Right'))
-  document.querySelectorAll('.centerRight').forEach(x => x.setAttribute('data-content', "<img src='../images/center-right.png' class='img-fluid'>"))
-  document.querySelectorAll('.frontLeft').forEach(x => x.setAttribute('title', 'Front Left'))
-  document.querySelectorAll('.frontLeft').forEach(x => x.setAttribute('data-content', "<img src='../images/front-left.png' class='img-fluid'>"))
-  document.querySelectorAll('.frontCenter').forEach(x => x.setAttribute('title', 'Front Center'))
-  document.querySelectorAll('.frontCenter').forEach(x => x.setAttribute('data-content', "<img src='../images/front-center.png' class='img-fluid'>"))
-  document.querySelectorAll('.frontRight').forEach(x => x.setAttribute('title', 'Front Right'))
-  document.querySelectorAll('.frontRight').forEach(x => x.setAttribute('data-content', "<img src='../images/front-right.png' class='img-fluid'>"))
-  // Initiate popovers
-  const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'))
-  const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+function popovers() {
+  // Define a mapping of class names to their respective titles and image paths
+  const popoverMappings = [
+    { className: "backLeft", title: "Back Left", imagePath: "back-left.png" },
+    {
+      className: "backCenter",
+      title: "Back Center",
+      imagePath: "back-center.png",
+    },
+    {
+      className: "backRight",
+      title: "Back Right",
+      imagePath: "back-right.png",
+    },
+    {
+      className: "centerLeft",
+      title: "Center Left",
+      imagePath: "center-left.png",
+    },
+    {
+      className: "center_center",
+      title: "Center Center",
+      imagePath: "center-center.png",
+    },
+    {
+      className: "centerRight",
+      title: "Center Right",
+      imagePath: "center-right.png",
+    },
+    {
+      className: "frontLeft",
+      title: "Front Left",
+      imagePath: "front-left.png",
+    },
+    {
+      className: "frontCenter",
+      title: "Front Center",
+      imagePath: "front-center.png",
+    },
+    {
+      className: "frontRight",
+      title: "Front Right",
+      imagePath: "front-right.png",
+    },
+  ];
+
+  // Iterate through each mapping and set the popover attributes
+  popoverMappings.forEach((mapping) => {
+    document.querySelectorAll(`.${mapping.className}`).forEach((element) => {
+      element.setAttribute("title", mapping.title);
+      element.setAttribute(
+        "data-content",
+        `<img src='../images/${mapping.imagePath}' class='img-fluid'>`
+      );
+    });
+  });
+
+  // Initiate popovers for elements with the data-toggle attribute set to "popover"
+  const popoverTriggerList = [].slice.call(
+    document.querySelectorAll('[data-toggle="popover"]')
+  );
+  const popoverList = popoverTriggerList.map((popoverTriggerEl) => {
     return new bootstrap.Popover(popoverTriggerEl, {
       html: true,
-      trigger: 'hover'
-    })
-  })
+      trigger: "hover",
+    });
+  });
 }
-popovers()
+
+popovers();

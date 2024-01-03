@@ -11,6 +11,10 @@ textarea {
   display: inline-table;
 }
 
+.font-monospace {
+  white-space: nowrap;
+}
+
 .hide {
   display: block;
 }
