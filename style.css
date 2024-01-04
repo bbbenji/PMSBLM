@@ -9,6 +9,7 @@ textarea {
 .form-switch .form-check-input {
   margin-right: 0.5rem;
   display: inline-table;
+  min-width: 32px;
 }
 
 .font-monospace {

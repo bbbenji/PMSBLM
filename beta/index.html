@@ -32,17 +32,18 @@
           <div class="form-floating mt-2">
             <textarea
               id="source"
+              name="input"
               wrap="off"
               class="form-control font-monospace"
-              placeholder="Output of G29"
+              required
             >
-Recv:         0       1       2       3       4       5
-Recv:  5 | -0.017  -0.015  +0.080  +0.027  +0.050  +0.047
-Recv:  4 | -0.055  -0.047  +0.042  +0.060  +0.040  +0.020
-Recv:  3 | +0.010  +0.002  +0.005  +0.002  +0.030  +0.067
-Recv:  2 | -0.003  +0.014  +0.049  +0.010  +0.029  +0.047
-Recv:  1 | -0.008  +0.014  +0.054  +0.024  +0.026  +0.029
-Recv:  0 | -0.003  +0.014  +0.059  +0.037  +0.024  +0.042</textarea
+  Recv:         0       1       2       3       4       5
+  Recv:  5 | -0.017  -0.015  +0.080  +0.027  +0.050  +0.047
+  Recv:  4 | -0.055  -0.047  +0.042  +0.060  +0.040  +0.020
+  Recv:  3 | +0.010  +0.002  +0.005  +0.002  +0.030  +0.067
+  Recv:  2 | -0.003  +0.014  +0.049  +0.010  +0.029  +0.047
+  Recv:  1 | -0.008  +0.014  +0.054  +0.024  +0.026  +0.029
+  Recv:  0 | -0.003  +0.014  +0.059  +0.037  +0.024  +0.042</textarea
             >
             <label for="input"
               >Output of <span class="font-monospace">G29</span></label
@@ -50,10 +51,6 @@ Recv:  0 | -0.003  +0.014  +0.059  +0.037  +0.024  +0.042</textarea
           </div>
 
           <div class="d-grid gap-2 mt-4">
-            <!-- <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="save" checked>
-              <label class="form-check-label text-break form-inline" for="save">Allow data to be saved for analytical purposes. All data is publicly available here: <a href="#">github.com/bbbenji/PMSBLM/DATA</a></label>
-            </div> -->
             <div class="d-flex">
               <button id="action" class="btn btn-primary w-100" type="button">
                 Convert
@@ -81,6 +78,23 @@ Recv:  0 | -0.003  +0.014  +0.059  +0.037  +0.024  +0.042</textarea
                   >Flip Plot</label
                 >
               </div>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="save"
+                checked
+              />
+              <label class="form-check-label text-break form-inline" id="save"
+                >Allow data to be saved for analytical purposes. All data is
+                publicly available
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1aT9UKHm6XbMGWDeiOef8XBGRgFBrTP9plxXJdlF43B4/edit?usp=sharing"
+                  >here</a
+                >.</label
+              >
             </div>
           </div>
         </div>

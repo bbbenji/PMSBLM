@@ -8,6 +8,38 @@ const ccw = 'CCW <span class="mdi mdi-rotate-left text-primary"></span>';
 const source = document.getElementById("source");
 const target = document.getElementById("target");
 const action = document.getElementById("action");
+const save = document.getElementById("save");
+let modified = false;
+
+// Google Sheets
+var form_data = new FormData();
+const scriptURL =
+  "https://script.google.com/macros/s/AKfycby6ONP6GHYL6qrMmfkgeyZh7nNGeQIYSL6EKwOFH28NeYerwWnuWwhpkJu4MspuQ7aS2Q/exec";
+
+source.addEventListener("input", () => {
+  modified = true;
+});
+
+// Send input data to Google Forms
+function send2GS(raw) {
+  if (save.checked && modified) {
+    var formData = new FormData();
+    formData.append(
+      "input",
+      JSON.stringify(raw, null, 2)
+        .replace(/\n/g, " ")
+        .replace(/ {2,}/g, " ")
+        .replace(/\], \[/g, "],\n[")
+        .replace(/\[ \[/g, "[")
+        .replace(/\] \]/g, "]")
+    );
+
+    fetch(scriptURL, { method: "POST", body: formData })
+      .then((response) => console.log("Success!", response))
+      .catch((error) => console.error("Error!", error.message));
+    modified = false;
+  }
+}
 
 // Event listener for the 'action' button click. It processes the data and updates the UI accordingly.
 action.addEventListener("click", () => {
@@ -23,6 +55,9 @@ action.addEventListener("click", () => {
 
   // Plot the processed data
   plot(raw);
+
+  // Send to Google Sheets
+  send2GS(raw);
 });
 
 // Cleans and processes raw string data from a source input.
