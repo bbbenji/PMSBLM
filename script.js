@@ -1,287 +1,423 @@
-screw_pitch = 0.5;
-cw = 'CW&nbsp;&nbsp;<span class="mdi mdi-rotate-right text-danger"></span>';
-ccw = 'CCW <span class="mdi mdi-rotate-left text-primary"></span>';
+(() => {
+  // Constants for screw pitch and rotation directions
+  const screwPitch = 0.5;
+  const cw =
+    'CW&nbsp;&nbsp;<span class="mdi mdi-rotate-right text-danger"></span>';
+  const ccw = 'CCW <span class="mdi mdi-rotate-left text-primary"></span>';
 
-function raw(position) {
-  pos = position.toFixed(2);
-  if (pos == 0) {
-    return '±0.00 mm <span class="mdi mdi-check text-success"></span>';
-  } else {
-    pos = ((pos >= 0) ? '+' : '') + pos + ' mm <span class="mdi mdi-close text-danger"></span>'
-    return pos;
+  // DOM elements
+  const source = document.getElementById("source");
+  const target = document.getElementById("target");
+  const action = document.getElementById("action");
+  const save = document.getElementById("save");
+  let modified = false;
+
+  // Google Sheets script URL
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycby6ONP6GHYL6qrMmfkgeyZh7nNGeQIYSL6EKwOFH28NeYerwWnuWwhpkJu4MspuQ7aS2Q/exec";
+
+  // Debounced input event listener to track changes
+  source.addEventListener(
+    "input",
+    debounce(() => {
+      modified = true;
+    }, 300)
+  );
+
+  // Debounce function to limit the rate at which a function can fire
+  function debounce(func, wait) {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
   }
-}
 
-function degrees(position) {
-  deg = Math.round((position/screw_pitch*360));
-  if (deg == 0) {
-    return deg + '° <span class="mdi mdi-check text-success"></span>';
-  } else {
-    deg = Math.abs(deg) + '°' + ' ' + ((deg > 0) ? cw : ccw);
-    return deg;
-  }
-}
+  // Function to send data to Google Sheets
+  async function send2GS(raw) {
+    if (save.checked && modified) {
+      const formData = new FormData();
+      formData.append(
+        "input",
+        JSON.stringify(raw)
+          .replace(/\n/g, " ")
+          .replace(/ {2,}/g, " ")
+          .replace(/\], \[/g, "],\n[")
+          .replace(/\[ \[/g, "[")
+          .replace(/\] \]/g, "]")
+      );
 
-// https://stackoverflow.com/a/23575406
-let gcd = function(a, b) {
-  if (b < 0.0000001) return a; // Since there is a limited precision we need to limit the value.
-  return gcd(b, Math.floor(a % b)); // Discard any fractions due to limitations in precision.
-};
-function fractions(position) {
-  abs = Math.abs(position/screw_pitch).toFixed(1);
-  let len = abs.toString().length - 2;
-  let denominator = Math.pow(10, len);
-  let numerator = abs * denominator;
-  let divisor = gcd(numerator, denominator);
-  numerator /= divisor;
-  denominator /= divisor;
-  
-  rat = Math.floor(numerator) + '/' + Math.floor(denominator);
-  rat = ((rat == '0/1') ? 0 : rat);
-  if (rat == 0) {
-    return rat + ' <span class="mdi mdi-check text-success"></span>';
-  } else {
-    rat = rat + ' ' + ((position > 0) ? cw : ccw);
-    return rat;
-  }
-}
-
-function convert() {
-  const array = ['back_left', 'back_center', 'back_right', 'center_left', 'center_right', 'front_left', 'front_center', 'front_right']
-  array.forEach(function (item) {
-    document.querySelector('#raw .' + item).innerHTML = raw(window[item]);
-    document.querySelector('#degrees .' + item).innerHTML = degrees(window[item]);
-    document.querySelector('#fractions .' + item).innerHTML = fractions(window[item]);
-  });
-}
-
-// Remove line numbers from array for Mini
-function cleanMini(arr) {
-  let forDeletion = [0, 5, 10, 15]
-  for (let i = forDeletion.length -1; i >= 0; i--)
-  arr.splice(forDeletion[i],1);
-}
-
-// Remove line numbers from array for Marlin 7x7
-function cleanMarlin7(arr) {
-  let forDeletion = [0, 8, 16, 24, 32, 40, 48]
-  for (let i = forDeletion.length -1; i >= 0; i--)
-  arr.splice(forDeletion[i],1);
-}
-
-function minMax(arr) {
-  let min = Math.min(...arr);
-  let max = Math.max(...arr);
-  min = ((min >= 0) ? '+' : '') + min;
-  max = ((max >= 0) ? '+' : '') + max;
-  document.querySelector('#stats .min').innerHTML = min;
-  document.querySelector('#stats .max').innerHTML = max;
-}
-
-function maxDiff(arr) {
-  let diff = Math.max(...arr) - Math.min(...arr);
-  document.querySelector('#stats .max_diff').innerHTML = diff.toFixed(3);
-  if (diff <= 0.02) {
-    fireworks();
-  }
-}
-
-function avgDev(arr) {
-  let avg = arr.reduce((a, b) => a + b) / arr.length;
-  avg = ((avg >= 0) ? '+' : '') + avg.toFixed(3);
-  document.querySelector('#stats .avg_dev').innerHTML = avg;
-}
-
-function plot(arr, points) {
-  // Reverse the array because MBL output is rotated
-  arr = arr.reverse();
-
-  let arrs = [], size = points;
-  while (arr.length > 0)
-  arrs.push(arr.splice(0, size));
-
-  // Plotly specific
-  let data = [{
-            z: arrs,
-            type: 'surface'
-          }];      
-  let layout = {
-    // title: '',
-    autosize: true,
-    margin: {
-      l: 0,
-      r: 0,
-      b: 0,
-      t: 0,
-    },
-    scene: {
-      xaxis: {
-        visible: false
-      },
-      yaxis: {
-        visible: false
-      },
-      zaxis: {
-        range: [-2, 2]
+      try {
+        const response = await fetch(scriptURL, {
+          method: "POST",
+          body: formData,
+        });
+        console.log("Success!", response);
+      } catch (error) {
+        console.error("Error!", error.message);
       }
+      modified = false;
     }
-  };
-  Plotly.newPlot('ploty', data, layout);
-}
+  }
 
-function fireworks() {
-  var duration = 5 * 1000;
-  var animationEnd = Date.now() + duration;
-  var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-  
+  // Event listener for the 'action' button click
+  action.addEventListener("click", () => {
+    // Clean and process the raw data
+    const raw = clean();
+    const rawFlat = raw.flat().map(Number);
+
+    // Perform various data conversions and calculations
+    convert(raw);
+    minMax(rawFlat);
+    maxDiff(rawFlat);
+    avgDev(rawFlat);
+
+    // Plot the processed data
+    plot(raw);
+
+    // Send to Google Sheets
+    send2GS(raw);
+  });
+
+  // Function to clean and process raw string data from a source input
+  function clean() {
+    let raw = source.value
+      .replace(/\w+:\s*/g, "") // Remove prefixes like 'Recv: '
+      .replace(/\|/g, "") // Remove '|'
+      .replace(/^[ \t]*\r?\n/gm, "") // Remove blank lines
+      .trim()
+      .split("\n"); // Split into lines
+
+    // Remove trailing and leading column numbers
+    if (raw[raw.length - 1].trim().match(/^0\s+[\s\d]+\d$/)) raw.pop();
+    if (raw[0].trim().match(/^0\s+[\s\d]+\d$/)) raw.shift();
+
+    raw = raw.map((line, index) => {
+      const processedLine = line
+        .trim()
+        .replace(/< \d+:\d+:\d+(\s+(AM|PM))?:/g, "") // Remove timestamps
+        .replace(/[\[\]]/g, " ") // Replace brackets with spaces
+        .replace(/\s+/g, "\t") // Normalize whitespace to tabs
+        .split("\t"); // Split by tabs
+
+      // Remove row numbers if they match a pattern
+      if (
+        +processedLine[0] === raw.length - index - 1 ||
+        processedLine[0] === String(index)
+      ) {
+        processedLine.shift();
+      }
+
+      return processedLine;
+    });
+
+    // Optionally invert the output
+    const invertOutput = document.getElementById("invertOutput");
+    if (invertOutput.checked) {
+      raw = raw.map((item) => item.reverse()).reverse();
+    }
+
+    return raw;
+  }
+
+  // Function to plot data using Plotly
+  function plot(raw) {
+    const flipOutput = document.getElementById("flipOutput");
+    if (flipOutput.checked) raw.reverse();
+
+    hide();
+    const data = [{ z: raw, type: "surface" }];
+    const layout = {
+      autosize: true,
+      margin: { l: 0, r: 0, b: 0, t: 0 },
+      scene: {
+        zaxis: { autorange: false, range: [-1, 1] },
+        camera: { eye: { x: 0, y: -2.5, z: 1 }, up: { x: 0, y: 0, z: 1 } },
+      },
+    };
+    Plotly.newPlot(target, data, layout, { responsive: true });
+  }
+
+  // Function to convert raw data and update the UI
+  function convert(raw) {
+    const midRow = arrayMid(raw);
+    const {
+      midRowValueAvg,
+      midRowFirstValueAvg,
+      midRowLastValueAvg,
+      firstRowMidValueAvg,
+      lastRowMidValueAvg,
+    } = calculateAverages(raw, midRow);
+
+    const center = midRowValueAvg;
+    const positions = calculatePositions(raw, center, {
+      midRowFirstValueAvg,
+      midRowLastValueAvg,
+      firstRowMidValueAvg,
+      lastRowMidValueAvg,
+    });
+
+    // Update DOM elements with calculated values
+    positions.forEach(({ position, selector }) => {
+      document.querySelector(`#raw .${selector}`).innerHTML =
+        relative(position);
+      document.querySelector(`#degrees .${selector}`).innerHTML =
+        degrees(position);
+      document.querySelector(`#fractions .${selector}`).innerHTML =
+        fractions(position);
+    });
+  }
+
+  // Function to calculate averages of specific positions in the data
+  function calculateAverages(raw, midRow) {
+    let midRowValueAvg,
+      midRowFirstValueAvg,
+      midRowLastValueAvg,
+      firstRowMidValueAvg,
+      lastRowMidValueAvg;
+
+    if (raw.length % 2 === 0) {
+      // Calculate averages for even number of rows
+      const midRowValue = [...arrayMid(midRow[0]), ...arrayMid(midRow[1])];
+      midRowValueAvg = arraySum(midRowValue) / midRowValue.length;
+      midRowFirstValueAvg = arraySum([midRow[0][0], midRow[1][0]]) / 2;
+      midRowLastValueAvg =
+        arraySum([
+          midRow[0][midRow[0].length - 1],
+          midRow[1][midRow[1].length - 1],
+        ]) / 2;
+      firstRowMidValueAvg = arraySum(arrayMid(raw[0])) / 2;
+      lastRowMidValueAvg = arraySum(arrayMid(raw[raw.length - 1])) / 2;
+    } else {
+      // Calculate averages for odd number of rows
+      midRowValueAvg = arrayMid(midRow[0])[0];
+      midRowFirstValueAvg = midRow[0][0];
+      midRowLastValueAvg = midRow[0][midRow[0].length - 1];
+      firstRowMidValueAvg = arrayMid(raw[0])[0];
+      lastRowMidValueAvg = arrayMid(raw[raw.length - 1])[0];
+    }
+
+    return {
+      midRowValueAvg,
+      midRowFirstValueAvg,
+      midRowLastValueAvg,
+      firstRowMidValueAvg,
+      lastRowMidValueAvg,
+    };
+  }
+
+  // Function to calculate relative positions and their selectors
+  function calculatePositions(raw, center, averages) {
+    const {
+      midRowFirstValueAvg,
+      midRowLastValueAvg,
+      firstRowMidValueAvg,
+      lastRowMidValueAvg,
+    } = averages;
+    const backLeft = raw[0][0] - center;
+    const backCenter = firstRowMidValueAvg - center;
+    const backRight = raw[0][raw.length - 1] - center;
+    const centerLeft = midRowFirstValueAvg - center;
+    const centerRight = midRowLastValueAvg - center;
+    const frontLeft = raw[raw.length - 1][0] - center;
+    const frontCenter = lastRowMidValueAvg - center;
+    const frontRight = raw[raw.length - 1][raw.length - 1] - center;
+
+    return [
+      { position: backLeft, selector: "backLeft" },
+      { position: backCenter, selector: "backCenter" },
+      { position: backRight, selector: "backRight" },
+      { position: centerLeft, selector: "centerLeft" },
+      { position: centerRight, selector: "centerRight" },
+      { position: frontLeft, selector: "frontLeft" },
+      { position: frontCenter, selector: "frontCenter" },
+      { position: frontRight, selector: "frontRight" },
+    ];
+  }
+
+  // Function to sum values in an array
+  function arraySum(array) {
+    return array
+      .flat(Infinity)
+      .map(Number)
+      .reduce((acc, curr) => acc + curr, 0);
+  }
+
+  // Function to find the middle element(s) of an array
+  function arrayMid(raw, ind = 0) {
+    if (raw[ind] === undefined) {
+      return ind % 2 !== 0
+        ? [raw[(ind - 1) / 2]]
+        : [raw[ind / 2 - 1], raw[ind / 2]];
+    }
+    return arrayMid(raw, ++ind);
+  }
+
+  // Function to format relative position values for display
+  function relative(position) {
+    const pos = position.toFixed(2);
+    return pos === "0.00"
+      ? '±0.00 mm <span class="mdi mdi-check text-success"></span>'
+      : `${
+          pos >= 0 ? "+" : ""
+        }${pos} mm <span class="mdi mdi-close text-danger"></span>`;
+  }
+
+  // Function to convert position to degrees and format for display
+  function degrees(position) {
+    const deg = Math.round((position / screwPitch) * 360);
+    return deg === 0
+      ? '0° <span class="mdi mdi-check text-success"></span>'
+      : `${Math.abs(deg)}° ${deg > 0 ? cw : ccw}`;
+  }
+
+  // Function to convert position to fractional representation and format for display
+  function fractions(position) {
+    const gcd = (a, b) => (b < 0.0000001 ? a : gcd(b, Math.floor(a % b)));
+    const abs = Math.abs(position / screwPitch).toFixed(1);
+    const len = abs.toString().length - 2;
+    let denominator = Math.pow(10, len);
+    let numerator = abs * denominator;
+    const divisor = gcd(numerator, denominator);
+    numerator /= divisor;
+    denominator /= divisor;
+    const fraction = `${Math.floor(numerator)}/${Math.floor(denominator)}`;
+
+    return fraction === "0/1"
+      ? '0 <span class="mdi mdi-check text-success"></span>'
+      : `${fraction} ${position > 0 ? cw : ccw}`;
+  }
+
+  // Function to update minimum and maximum values in the DOM
+  function minMax(rawFlat) {
+    const min = (Math.min(...rawFlat) >= 0 ? "+" : "") + Math.min(...rawFlat);
+    const max = (Math.max(...rawFlat) >= 0 ? "+" : "") + Math.max(...rawFlat);
+    document.querySelector("#stats .min").textContent = min;
+    document.querySelector("#stats .max").textContent = max;
+  }
+
+  // Function to update maximum difference and trigger fireworks if condition is met
+  function maxDiff(rawFlat) {
+    const diff = Math.max(...rawFlat) - Math.min(...rawFlat);
+    document.querySelector("#stats .max_diff").textContent = diff.toFixed(3);
+    if (diff <= 0.02) fireworks();
+  }
+
+  // Function to update average deviation in the DOM
+  function avgDev(rawFlat) {
+    const avg = (rawFlat.reduce((a, b) => a + b, 0) / rawFlat.length).toFixed(
+      3
+    );
+    document.querySelector("#stats .avg_dev").textContent =
+      (avg >= 0 ? "+" : "") + avg;
+  }
+
+  // Function to hide elements with the class 'hide'
+  function hide() {
+    document
+      .querySelectorAll(".hide")
+      .forEach((element) => element.classList.add("hidden"));
+  }
+
+  // Function to initiate fireworks animation
+  function fireworks() {
+    const duration = 5000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    const interval = setInterval(() => {
+      const timeLeft = animationEnd - Date.now();
+      if (timeLeft <= 0) return clearInterval(interval);
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        })
+      );
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        })
+      );
+    }, 250);
+  }
+
+  // Function to generate a random number within a given range
   function randomInRange(min, max) {
     return Math.random() * (max - min) + min;
   }
-  
-  var interval = setInterval(function() {
-    var timeLeft = animationEnd - Date.now();
-  
-    if (timeLeft <= 0) {
-      return clearInterval(interval);
-    }
-  
-    var particleCount = 50 * (timeLeft / duration);
-    // since particles fall down, start a bit higher than random
-    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-    confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-  }, 250);
-}
 
-function hide() {
-  document.querySelectorAll('.hide').forEach(x=>x.classList.add('hidden'))
-}
+  // Function to initialize popovers
+  function popovers() {
+    const popoverMappings = [
+      { className: "backLeft", title: "Back Left", imagePath: "back-left.png" },
+      {
+        className: "backCenter",
+        title: "Back Center",
+        imagePath: "back-center.png",
+      },
+      {
+        className: "backRight",
+        title: "Back Right",
+        imagePath: "back-right.png",
+      },
+      {
+        className: "centerLeft",
+        title: "Center Left",
+        imagePath: "center-left.png",
+      },
+      {
+        className: "center_center",
+        title: "Center Center",
+        imagePath: "center-center.png",
+      },
+      {
+        className: "centerRight",
+        title: "Center Right",
+        imagePath: "center-right.png",
+      },
+      {
+        className: "frontLeft",
+        title: "Front Left",
+        imagePath: "front-left.png",
+      },
+      {
+        className: "frontCenter",
+        title: "Front Center",
+        imagePath: "front-center.png",
+      },
+      {
+        className: "frontRight",
+        title: "Front Right",
+        imagePath: "front-right.png",
+      },
+    ];
 
-window.onload = function() {
-  document.getElementById('convert').onclick = function fun() {
+    popoverMappings.forEach((mapping) => {
+      document.querySelectorAll(`.${mapping.className}`).forEach((element) => {
+        element.setAttribute("title", mapping.title);
+        element.setAttribute(
+          "data-content",
+          `<img src='../images/${mapping.imagePath}' class='img-fluid'>`
+        );
+      });
+    });
 
-    textarea = document.querySelector('textarea#input');
-    textareaValue = textarea.value;
-    let arr;
-    let points;
-
-    var e = document.getElementById('outputType');
-    var value = e.value;
-    if (value == 'prusaMini') {
-      points = 4;
-      textareaValue = textareaValue.replace(/\w+:\s*/g, '').trim(); // Remove 'Recv: ' if exists & trim whitespace
-      textareaValue = textareaValue.replace(/0[ \t]+1[ \t]+2[ \t]+3\n/g, '').trim(); // Remove '0 1 2 3' if exists & trim whitespace
-      arr = textareaValue.split(/\s+/).map(x=>+x);
-      
-      // Raw
-      //  1  2  3  4
-      //  6  7  8  9
-      // 11 12 13 14
-      // 16 17 18 19
-      cleanMini(arr)
-      // Cleaned
-      //  0  1  2  3
-      //  4  5  6  7
-      //  8  9 10 11
-      // 12 13 14 15
-  
-      center = (arr[5]+arr[6]+arr[9]+arr[10])/4;
-  
-      back_left = arr[12] - center;
-      back_center = ((arr[13]+arr[14])/2) - center;
-      back_right = arr[15] - center;
-      
-      center_left = ((arr[4]+arr[8])/2) - center;
-      center_right = ((arr[7]+arr[11])/2) - center;
-      
-      front_left = arr[0] - center;
-      front_center = ((arr[1]+arr[2])/2) - center;
-      front_right = arr[3] - center;
-    } else if (value == 'marlin7') {
-      points = 7;
-      textareaValue = textareaValue.replace(/\w+:\s*/g, '').trim(); // Remove 'Recv: ' if exists & trim whitespace
-      textareaValue = textareaValue.replace(/0[ \t]+1[ \t]+2[ \t]+3[ \t]+4[ \t]+5[ \t]+6\n/g, '').trim(); // Remove '0 1 2 3 4 5 6 7' if exists & trim whitespace
-      arr = textareaValue.split(/\s+/).map(x=>+x);
-      
-      // Raw
-      //  1  2  3  4  5  6  7
-      //  9 10 11 12 13 14 15
-      // 17 18 19 20 21 22 23
-      // 25 26 27 28 29 30 31
-      // 33 34 35 36 37 38 39
-      // 41 42 43 44 45 46 47
-      // 49 50 51 52 53 54 55
-      cleanMarlin7(arr)
-      // Cleaned
-      //  0  1  2  3  4  5  6
-      //  7  8  9 10 11 12 13
-      // 14 15 16 17 18 19 20
-      // 21 22 23 24 25 26 27
-      // 28 29 30 31 32 33 34
-      // 35 36 37 38 39 40 41
-      // 42 43 44 45 46 47 48
-
-      //  0  1      2  3  4     5  6
-      //  7  8      9 10 11    12 13
-
-      // 14 15    16 17 18    19 20
-      // 21 22    23 24 25    26 27
-      // 28 29    30 31 32    33 34
-
-      // 35 36     37 38 39    40 41
-      // 42 43     44 45 46    47 48
-  
-      center = (arr[16]+arr[17]+arr[18]+arr[23]+arr[24]+arr[25]+arr[30]+arr[31]+arr[32])/9;
-  
-      back_left = ((arr[0]+arr[1]+arr[7]+arr[8])/4) - center;
-      back_center = ((arr[2]+arr[3]+arr[4]+arr[9]+arr[10]+arr[11])/6) - center;
-      back_right = arr[15] - center;
-      
-      center_left = ((arr[14]+arr[15]+arr[21]+arr[22]+arr[28]+arr[29])/6) - center;
-      center_right = ((arr[19]+arr[20]+arr[26]+arr[27]+arr[33]+arr[34])/6) - center;
-      
-      front_left = ((arr[35]+arr[36]+arr[42]+arr[43])/4) - center;
-      front_center = ((arr[37]+arr[38]+arr[39]+arr[44]+arr[45]+arr[46])/6) - center;
-      front_right = ((arr[40]+arr[41]+arr[47]+arr[48])/4) - center;
-    
-    }
-
-    convert();
-    minMax(arr);
-    maxDiff(arr);
-    avgDev(arr);
-    plot(arr, points);
-    hide();
+    const popoverTriggerList = [].slice.call(
+      document.querySelectorAll('[data-toggle="popover"]')
+    );
+    popoverTriggerList.map(
+      (popoverTriggerEl) =>
+        new bootstrap.Popover(popoverTriggerEl, {
+          html: true,
+          trigger: "hover",
+        })
+    );
   }
-  popovers()
-}
 
-// Popovers
-function popovers() {
-  // Set popover data attributes
-  document.querySelectorAll('.back_left').forEach(x=>x.setAttribute('title', 'Back Left'))
-  document.querySelectorAll('.back_left').forEach(x=>x.setAttribute('data-content', "<img src='images/back-left.png' class='img-fluid'>"))
-  document.querySelectorAll('.back_center').forEach(x=>x.setAttribute('title', 'Back Center'))
-  document.querySelectorAll('.back_center').forEach(x=>x.setAttribute('data-content', "<img src='images/back-center.png' class='img-fluid'>"))
-  document.querySelectorAll('.back_right').forEach(x=>x.setAttribute('title', 'Back Right'))
-  document.querySelectorAll('.back_right').forEach(x=>x.setAttribute('data-content', "<img src='images/back-right.png' class='img-fluid'>"))
-  document.querySelectorAll('.center_left').forEach(x=>x.setAttribute('title', 'Center Left'))
-  document.querySelectorAll('.center_left').forEach(x=>x.setAttribute('data-content', "<img src='images/center-left.png' class='img-fluid'>"))
-  document.querySelectorAll('.center_center').forEach(x=>x.setAttribute('title', 'Center Center'))
-  document.querySelectorAll('.center_center').forEach(x=>x.setAttribute('data-content', "<img src='images/center-center.png' class='img-fluid'>"))
-  document.querySelectorAll('.center_right').forEach(x=>x.setAttribute('title', 'Center Right'))
-  document.querySelectorAll('.center_right').forEach(x=>x.setAttribute('data-content', "<img src='images/center-right.png' class='img-fluid'>"))
-  document.querySelectorAll('.front_left').forEach(x=>x.setAttribute('title', 'Front Left'))
-  document.querySelectorAll('.front_left').forEach(x=>x.setAttribute('data-content', "<img src='images/front-left.png' class='img-fluid'>"))
-  document.querySelectorAll('.front_center').forEach(x=>x.setAttribute('title', 'Front Center'))
-  document.querySelectorAll('.front_center').forEach(x=>x.setAttribute('data-content', "<img src='images/front-center.png' class='img-fluid'>"))
-  document.querySelectorAll('.front_right').forEach(x=>x.setAttribute('title', 'Front Right'))
-  document.querySelectorAll('.front_right').forEach(x=>x.setAttribute('data-content', "<img src='images/front-right.png' class='img-fluid'>"))
-  // Initiate popovers
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'))
-  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl, {
-      html: true,
-      trigger: 'hover'
-    })
-  })
-}
+  // Initialize popovers
+  popovers();
+})();
