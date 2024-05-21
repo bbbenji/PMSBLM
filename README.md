@@ -124,14 +124,17 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
     ```
     G29 ; mesh bed leveling
-    G0 Z180 F720 ; raise Z
+    G0 Z25 F720 ; raise Z
+    M18 ; disable motors
     ```
 
     **FW >= 5.1.0**
 
     ```
-    G29 ; mesh bed leveling
-    G0 Z180 F720 ; raise Z
+    G29 ; Probe mesh
+    G29 T ; Display probed mesh
+    G0 Z25 F720 ; raise Z
+    M18 ; disable motors
     ```
 
 6.  Now, wait for the mesh leveling to complete. You should see output something like this:
