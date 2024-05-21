@@ -42,7 +42,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 - 8 M3x16 flat head countersunk **Torx** screws (hex _might_ not work)
   - [Amazon](https://smile.amazon.com/gp/product/B01DEUBWMM/) (B01DEUBWMM)
   - [PL source](https://inoxprostal.pl/din-965-tx-a2-wkrety-metryczne-nierdzewne-plasko-stozkowe-na-torx/3312-din-965-tx-a2-m3x16-mm-wkret-metr-plasko-stozkowy-torx.html)
-  - These are DIN 965 or DIN 7991, so all hex, cross, and torx versions of the screw of size M3x16mm should work.
+  - These are DIN 965, most torx versions of M3x16mm should work.
 - 5.5mm (M3) combination wrench
   - [Printable wrench](https://www.thingiverse.com/thing:2440589)
 - Computer with Pronterface or OctoPrint
@@ -185,7 +185,7 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 ## Notes
 
-- Why Torx screws? Because the Mini's heatbed screw holes are not as deep as the Mk3's. Hex screws will sit proud of the bed. Update: Any DIN 965 or DIN 7991 M3x16 screws should work as they share the same dimensions.
+- Why Torx screws? Because the Mini's heatbed screw holes are not as deep as the Mk3's. Hex screws will sit proud of the bed. Update: Most torx M3x16 screws should work as they share similar dimensions.
 - Why low-profile locknuts? Actually the only area the low-profile locknut is required on is the top center mount point. This allows clearing the Y-axis motor mount.
 - If you cannot find low-profile locknuts, you can use regular ones, but you will need 18mm M3 Torx screws. However, the top center point REQUIRES a 16mm Torx screw and low-profile locknut. If you cannot find a single low-profile locknut, you can sand one down to approx 3mm height.
 
