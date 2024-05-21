@@ -11,50 +11,51 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 ## Table of contents
 
 - [Prusa Mini Silicone Bed Leveling Mod](#prusa-mini-silicone-bed-leveling-mod)
-	- [Table of contents](#table-of-contents)
-	- [Benefits & drawbacks](#benefits--drawbacks)
-		- [Pros](#pros)
-		- [Cons](#cons)
-	- [Requirements](#requirements)
-	- [Installation/Setup Procedure](#installationsetup-procedure)
-	- [Leveling Procedure](#leveling-procedure)
-	- [Notes](#notes)
-	- [Credit](#credit)
-
+  - [Table of contents](#table-of-contents)
+  - [Benefits & drawbacks](#benefits--drawbacks)
+    - [Pros](#pros)
+    - [Cons](#cons)
+  - [Requirements](#requirements)
+  - [Installation/Setup Procedure](#installationsetup-procedure)
+  - [Leveling Procedure](#leveling-procedure)
+  - [Notes](#notes)
+  - [Credit](#credit)
 
 ## Benefits & drawbacks
 
 ### Pros
+
 - Single fixed reference point
 
 ### Cons
+
 - Possibility of needing readjustment (no reports yet)
 
-
 ## Requirements
--   Length of 3mm ID 7-8mm OD high-temperature silicone tubing (can be found in car parts shops)
-	- [Amazon](https://www.amazon.com/gp/product/B01CTXVJY6/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) (B01CTXVJY6)
-	- [PL source](https://fmic.pl/laczniki-silikonowe/193-5923-przewod-podcisnienia-3mm-vacuum.html)
--   8 M3  **low-profile**  nylon locknuts
-	- [Amazon](https://www.amazon.com/gp/product/B003Z6VHE4/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) (B003Z6VHE4)
-	- Search for product code `AXA1052`, they show up on a number of hobbyist/RC sites.
--   8 M3x16 flat head countersunk  **Torx**  screws (hex *might* not work)
-	- [Amazon](https://smile.amazon.com/gp/product/B01DEUBWMM/) (B01DEUBWMM)
-	- [PL source](https://inoxprostal.pl/din-965-tx-a2-wkrety-metryczne-nierdzewne-plasko-stozkowe-na-torx/3312-din-965-tx-a2-m3x16-mm-wkret-metr-plasko-stozkowy-torx.html)
-	- These are DIN 965 or DIN 7991, so all hex, cross, and torx versions of the screw of size M3x16mm should work.
--   5.5mm (M3) combination wrench
-	- [Printable wrench](https://www.thingiverse.com/thing:2440589)
--   Computer with Pronterface or OctoPrint
-	- [Pronterface](https://www.pronterface.com/)
-	- [OctoPrint](https://octoprint.org/)
--   Micro USB cable
--   Torx wrench or driver (recommend wrench for precision)
--   Tube cutting jig
-	- [STL](https://github.com/PaulGameDev/PrusaMK3_Silicone_Leveling)
--   Razorblade or sharp knife
--   (Optional): Bed Tightening Jig to assist with adjustments
-	- [Dial+Pointer](https://www.printables.com/model/43629-prusa-mini-silicone-bed-leveling-mod-bed-tightenin)
-	- Remixes are available for different tip types
+
+- Length of 3mm ID 7-8mm OD high-temperature silicone tubing (can be found in car parts shops)
+  - [Amazon](https://www.amazon.com/gp/product/B01CTXVJY6/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) (B01CTXVJY6)
+  - [PL source](https://fmic.pl/laczniki-silikonowe/193-5923-przewod-podcisnienia-3mm-vacuum.html)
+- 8 M3 **low-profile** nylon locknuts
+  - [Amazon](https://www.amazon.com/gp/product/B003Z6VHE4/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1) (B003Z6VHE4)
+  - Search for product code `AXA1052`, they show up on a number of hobbyist/RC sites.
+- 8 M3x16 flat head countersunk **Torx** screws (hex _might_ not work)
+  - [Amazon](https://smile.amazon.com/gp/product/B01DEUBWMM/) (B01DEUBWMM)
+  - [PL source](https://inoxprostal.pl/din-965-tx-a2-wkrety-metryczne-nierdzewne-plasko-stozkowe-na-torx/3312-din-965-tx-a2-m3x16-mm-wkret-metr-plasko-stozkowy-torx.html)
+  - These are DIN 965 or DIN 7991, so all hex, cross, and torx versions of the screw of size M3x16mm should work.
+- 5.5mm (M3) combination wrench
+  - [Printable wrench](https://www.thingiverse.com/thing:2440589)
+- Computer with Pronterface or OctoPrint
+  - [Pronterface](https://www.pronterface.com/)
+  - [OctoPrint](https://octoprint.org/)
+- Micro USB cable
+- Torx wrench or driver (recommend wrench for precision)
+- Tube cutting jig
+  - [STL](https://github.com/PaulGameDev/PrusaMK3_Silicone_Leveling)
+- Razorblade or sharp knife
+- (Optional): Bed Tightening Jig to assist with adjustments
+  - [Dial+Pointer](https://www.printables.com/model/43629-prusa-mini-silicone-bed-leveling-mod-bed-tightenin)
+  - Remixes are available for different tip types
 
 ## Installation/Setup Procedure
 
@@ -91,52 +92,84 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 9.  Go to the opposite corner and do the same. Now the other two corners and then the remaining screws. Again, be very careful here, you can break the heatbed if it bends too much!
 
-10.  Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. The original spacer is 6mm, so using one you removed is a useful way to measure the gap. TIGHTEN SCREWS BY ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as shown in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
+10. Start tightening the screws back into place until approximately 6mm between the Y-carriage and the heatbed. The original spacer is 6mm, so using one you removed is a useful way to measure the gap. TIGHTEN SCREWS BY ONE TURN EACH! This takes a while but ensures you get it back on level and without unnecessarily stressing the bed. Follow the order as shown in the [official Prusa Mini/Mini+ documentation](https://help.prusa3d.com/en/guide/how-to-replace-a-heatbed-mini_156765#157010).
 
 <a href="/images/heatbed-mounting.png"><img src="/images/heatbed-mounting.png" width="100%"></a>
 <a href="/images/y-carraige-heatbed-6mm.jpeg"><img src="/images/y-carraige-heatbed-6mm.jpeg" width="50%"></a>
 
-11.  Screw in the center screw until tight.
+11. Screw in the center screw until tight.
 
 <a href="/images/heatbed-center-screw.jpeg"><img src="/images/heatbed-center-screw.jpeg" width="50%"></a>
 
 ## Leveling Procedure
+
 1.  Power on the printer
 2.  Plug in USB-B from computer to the printer
 3.  Fire up Pronterface or OctoPrint and hit the connect to printer button
 4.  In the bottom right text box or Terminal tab, enter the following GCode followed by the enter key.
 
-	**Make sure you replace your steel sheet**
+    **Make sure you replace your steel sheet**
 
-	```
+    ```
+    G28 ; home all
     M104 S170 ; set extruder temp for bed leveling
     M140 S60 ; set bed temp
     M109 R170 ; wait for extruder to reach temp
     M190 S60 ; wait for bed temp
     ```
 
-5.  Once the temperature has reached the target, input the GCode below.
+5.  Once the temperature has reached the target, input the GCode below, depending on your firmware version.
+
+    **FW < 5.1.0**
+
     ```
-    G28 ; home all without mesh bed level
     G29 ; mesh bed leveling
     G0 Z180 F720 ; raise Z
     ```
 
-6.  Now, wait for the mesh leveling to complete.
-	You should see output something like this:
-	```
-	0 -0.048 -0.040 -0.066 -0.035
-	1 -0.040 -0.030 -0.044 -0.010
-	2 -0.065 -0.050 -0.061 -0.047
-	3 -0.347 -0.029 -0.045 -0.155
-	```
+    **FW >= 5.1.0**
+
+    ```
+    G29 ; mesh bed leveling
+    G0 Z180 F720 ; raise Z
+    ```
+
+6.  Now, wait for the mesh leveling to complete. You should see output something like this:
+
+    **FW < 5.1.0**
+
+    ```
+    0 -0.048 -0.040 -0.066 -0.035
+    1 -0.040 -0.030 -0.044 -0.010
+    2 -0.065 -0.050 -0.061 -0.047
+    3 -0.347 -0.029 -0.045 -0.155
+    ```
+
+    **FW >= 5.1.0**
+
+    ```
+            0       1       2       3       4       5
+    5 | +0.251  +0.165  +0.054  +0.082  -0.055  -0.063
+      |
+    4 | +0.262  +0.164  +0.065  +0.012  -0.060  -0.133
+      |
+    3 | +0.249  +0.162  +0.076  -0.058  -0.065  -0.073
+      |
+    2 | +0.221  +0.152  +0.084  +0.009  -0.021  -0.051
+      |
+    1 | +0.317 [+0.221] +0.125  +0.030  +0.005  -0.020
+      |
+    0 | +0.359  +0.290  +0.166  +0.051  +0.031  +0.001
+            0       1       2       3       4       5
+    ```
 
 7.  Copy the results and paste them into the text area on the Prusa Mini G29 converter page found here: [https://bbbenji.github.io/PMSBLM/](https://bbbenji.github.io/PMSBLM/).
 
     It has been reported in Windows that using Ctrl+C to copy the text output from Pronterface does not always work, this may cause you to paste in the previous values. Instead, select the text then right-click and click Copy.
 
 8.  Follow the instructions for which screws to turn and how far. If using the 3D printed wrench, make sure you brace it against the nut before turning the screw as it has a small amount of play which may affect your accuracy. A metal wrench is the better option.
-	- The bed tightening jig is useful here for judging degree rotations.
+
+    - The bed tightening jig is useful here for judging degree rotations.
 
 9.  Repeat steps 5-8 until the numbers from the results section on the website are no more than .02 difference between your biggest and smallest numbers. Ideally 0.
 
@@ -146,18 +179,20 @@ Instead of relying on a fixed plane which depends on your Y-carriage being perfe
 
 **Remember to replace your steel sheet and let the bed reach temperature before starting step 5.**
 
-10.  Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
+10. Run Z calibration again resetting the current value. You've just changed the height of your print surface and you don't want to crash the nozzle into it.
 
-11.  Spend loads of quality time printing the bottom 2mm of Benchy and getting that live-z value perfect.
+11. Spend loads of quality time printing the bottom 2mm of Benchy and getting that live-z value perfect.
 
 ## Notes
--   Why Torx screws? Because the Mini's heatbed screw holes are not as deep as the Mk3's. Hex screws will sit proud of the bed. Update: Any DIN 965 or DIN 7991 M3x16 screws should work as they share the same dimensions.
--   Why low-profile locknuts? Actually the only area the low-profile locknut is required on is the top center mount point. This allows clearing the Y-axis motor mount.
--   If you cannot find low-profile locknuts, you can use regular ones, but you will need 18mm M3 Torx screws. However, the top center point REQUIRES a 16mm Torx screw and low-profile locknut. If you cannot find a single low-profile locknut, you can sand one down to approx 3mm height.
+
+- Why Torx screws? Because the Mini's heatbed screw holes are not as deep as the Mk3's. Hex screws will sit proud of the bed. Update: Any DIN 965 or DIN 7991 M3x16 screws should work as they share the same dimensions.
+- Why low-profile locknuts? Actually the only area the low-profile locknut is required on is the top center mount point. This allows clearing the Y-axis motor mount.
+- If you cannot find low-profile locknuts, you can use regular ones, but you will need 18mm M3 Torx screws. However, the top center point REQUIRES a 16mm Torx screw and low-profile locknut. If you cannot find a single low-profile locknut, you can sand one down to approx 3mm height.
 
 _I take no responsibility or liability, for any damages including, but not limited to indirect or consequential and/or loss of life._
 
 ## Credit
+
 - Thanks to @Paul_GD for the original idea ([prusa3d Discord](https://discord.com/invite/ArjqkbG))
 - Thanks to [@robee](https://forum.prusaprinters.org/forum/profile/robee/) for the detailed pictures
 - Thanks to [@Glademist](https://github.com/Glademist) for suggested improvements to this guide.
