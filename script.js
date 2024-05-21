@@ -401,7 +401,7 @@
         element.setAttribute("title", mapping.title);
         element.setAttribute(
           "data-content",
-          `<img src='../images/${mapping.imagePath}' class='img-fluid'>`
+          `<img src='images/${mapping.imagePath}' class='img-fluid'>`
         );
       });
     });
