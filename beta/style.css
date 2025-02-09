@@ -1,0 +1,84 @@
+textarea {
+  min-height: calc(10rem + 2px) !important;
+}
+
+.form-switch {
+  display: flex;
+  align-items: center;
+}
+.form-switch .form-check-input {
+  margin-right: 0.5rem;
+  display: inline-table;
+  min-width: 32px;
+}
+
+.font-monospace {
+  white-space: nowrap;
+}
+
+.hide {
+  display: block;
+}
+
+.hide.hidden {
+  display: none;
+}
+.popover-header {
+  text-align: center;
+}
+
+.grid-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "back_left back_center back_right"
+                       "center_left center_center center_right"
+                       "front_left front_center front_right";
+}
+
+.grid-container div {
+  cursor: pointer;
+  padding: 0 0.5rem;
+}
+
+.back_left, .backLeft { grid-area: back_left; text-align: left; }
+.back_center, .backCenter { grid-area: back_center; text-align: center; }
+.back_right, .backRight { grid-area: back_right; text-align: right; }
+.center_left, .centerLeft { grid-area: center_left; text-align: left; }
+.center_center, .centerCenter { grid-area: center_center; text-align: center; }
+.center_right, .centerRight { grid-area: center_right; text-align: right; }
+.front_left, .frontLeft { grid-area: front_left; text-align: left; }
+.front_center, .frontCenter { grid-area: front_center; text-align: center; }
+.front_right, .frontRight { grid-area: front_right; text-align: right; }
+
+.back_left:before, .back_right:before, .backLeft:before, .backRight:before,
+.front_left:before, .front_right:before, .frontLeft:before, .frontRight:before {
+  position: absolute;
+  width: 100%;
+  font-size: 0.75rem;
+  color: #6c757d;
+  pointer-events: none;
+}
+
+.back_left:before, .backLeft:before {
+  content: "Back Left";
+  top: 0;
+  left: 0;
+}
+.back_right:before, .backRight:before {
+  content: "Back Right";
+  top: 0;
+  right: 0;
+}
+.front_left:before, .frontLeft:before {
+  content: "Front Left";
+  bottom: 0;
+  left: 0;
+}
+.front_right:before, .frontRight:before {
+  content: "Front Right";
+  bottom: 0;
+  right: 0;
+}
